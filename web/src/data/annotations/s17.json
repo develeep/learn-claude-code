@@ -13,6 +13,10 @@
       "ja": {
         "title": "完了ゲートはホストが所有する",
         "description": "作業モデルは停止を要求できますが、GoalController は AgentSession が return する前に active goal を評価します。この gate は既存の turn 境界に置かれます。"
+      },
+      "ko": {
+        "title": "완료 관문은 호스트가 소유합니다",
+        "description": "작업 모델은 멈추겠다고 요청할 수 있지만, AgentSession이 반환하기 전에 GoalController가 활성 목표를 평가합니다. 이 관문은 기존의 턴 경계에 놓입니다."
       }
     },
     {
@@ -27,6 +31,10 @@
       "ja": {
         "title": "conversation が evaluator の入力になる",
         "description": "evaluator は active condition と現在の conversation を受け取り、そこに記録された tool result も読みます。自身では tool を使えず、conversation にある内容だけで判断します。"
+      },
+      "ko": {
+        "title": "대화가 평가자의 입력입니다",
+        "description": "평가자는 활성 조건과 현재 대화를 받으며, 그 대화에 보고된 도구 결과도 함께 읽습니다. 평가자에게는 자체 도구가 없고, 대화에 담긴 내용만으로 판단합니다."
       }
     },
     {
@@ -41,6 +49,10 @@
       "ja": {
         "title": "上限では control を返し、goal は維持する",
         "description": "goal が未達なら、controller は evaluator の理由を messages[] に追加し、同じ loop を続けます。Stop hook の連続 block 上限または global turn limit に達すると、goal を active のまま user に control を返します。"
+      },
+      "ko": {
+        "title": "제한에 도달하면 목표는 지우지 않고 제어권만 돌려줍니다",
+        "description": "목표가 충족되지 않으면 컨트롤러는 평가자의 이유를 messages[]에 덧붙이고 같은 루프를 이어 갑니다. Stop 훅의 연속 차단 상한이나 전역 턴 제한에 도달하면, 목표를 활성 상태로 둔 채 사용자에게 제어권을 돌려줍니다."
       }
     }
   ]
