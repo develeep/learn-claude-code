@@ -13,6 +13,10 @@
       "ja": {
         "title": "タスクは永続 JSON ファイル",
         "description": "各タスクは .tasks/ に id、subject、description、status、owner、blockedBy を持って保存されます。タスクボードはコンテキスト圧縮や再起動を越えて残ります。"
+      },
+      "ko": {
+        "title": "작업은 영속 JSON 파일입니다",
+        "description": "각 작업은 id, subject, description, status, owner, blockedBy를 담아 .tasks/ 아래에 저장됩니다. 작업 보드는 컨텍스트 압축과 프로세스 재시작을 넘어 유지됩니다."
       }
     },
     {
@@ -27,6 +31,10 @@
       "ja": {
         "title": "ノードを作成してから辺を追加する",
         "description": "create_task は host が生成した ID を返します。全ノードの作成後、update_task は返された ID で blockedBy の辺を追加し、無効な変更や循環を拒否します。"
+      },
+      "ko": {
+        "title": "노드를 먼저 만들고 간선을 추가합니다",
+        "description": "create_task는 호스트가 만든 ID를 돌려줍니다. 노드가 모두 만들어진 뒤 update_task가 돌려받은 ID로 blockedBy 간선을 추가하고, 잘못되었거나 순환을 만드는 변경은 거부합니다."
       }
     },
     {
@@ -41,6 +49,10 @@
       "ja": {
         "title": "blockedBy が順序を表現する",
         "description": "blockedBy の依存がすべて完了した時だけタスクを claim できます。存在しない依存もブロック扱いにして fail closed にします。"
+      },
+      "ko": {
+        "title": "blockedBy가 순서를 표현합니다",
+        "description": "blockedBy 의존 작업이 모두 완료되었을 때만 작업을 점유할 수 있습니다. 존재하지 않는 의존 작업도 차단된 것으로 보아 fail closed로 처리합니다."
       }
     },
     {
@@ -55,6 +67,10 @@
       "ja": {
         "title": "claim と complete が作業を観測可能にする",
         "description": "claim_task は owner と in_progress を記録し、complete_task は完了を記録して解放された下流タスクを報告します。"
+      },
+      "ko": {
+        "title": "점유와 완료로 작업 상황이 드러납니다",
+        "description": "claim_task는 owner와 in_progress 상태를 기록하고, complete_task는 완료를 표시한 뒤 차단이 풀린 후속 작업을 알려 줍니다."
       }
     }
   ]

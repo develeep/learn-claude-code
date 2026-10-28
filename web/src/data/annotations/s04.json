@@ -13,6 +13,10 @@
       "ja": {
         "title": "フックはループを書き換えず包み込む",
         "description": "UserPromptSubmit、PreToolUse、PostToolUse、Stop の各フックはライフサイクル地点に処理を追加し、model-tool-result ループ自体は保ちます。"
+      },
+      "ko": {
+        "title": "훅은 루프를 고쳐 쓰지 않고 감쌉니다",
+        "description": "UserPromptSubmit, PreToolUse, PostToolUse, Stop 훅은 생명주기의 각 지점에 동작을 덧붙이고, 모델-도구-결과 루프는 그대로 둡니다."
       }
     },
     {
@@ -27,6 +31,10 @@
       "ja": {
         "title": "PreToolUse はポリシー境界",
         "description": "PreToolUse はモデルがツールを選んだ後、handler 実行前に動きます。権限、ログ、安全ポリシーを入れる自然な場所です。"
+      },
+      "ko": {
+        "title": "PreToolUse는 정책 경계입니다",
+        "description": "PreToolUse 훅은 모델이 도구를 고른 뒤, handler가 실행되기 전에 돕니다. 권한, 로그 기록, 안전 정책을 넣기에 자연스러운 지점입니다."
       }
     },
     {
@@ -41,6 +49,10 @@
       "ja": {
         "title": "PostToolUse が結果を観測可能にする",
         "description": "PostToolUse は出力サイズ確認、trace 記録、メタデータ変換を各 handler へ散らさずに行えます。"
+      },
+      "ko": {
+        "title": "PostToolUse로 결과를 관찰할 수 있습니다",
+        "description": "PostToolUse 훅은 도구 handler를 하나하나 고치지 않고도 출력 크기를 확인하거나, trace를 기록하거나, 메타데이터를 변환할 수 있습니다."
       }
     }
   ]
