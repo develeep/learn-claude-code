@@ -17,7 +17,7 @@ const OUT_DIR = path.join(WEB_DIR, "src", "data", "generated");
 const PUBLIC_DIR = path.join(WEB_DIR, "public");
 const COURSE_ASSETS_DIR = path.join(PUBLIC_DIR, "course-assets");
 
-type Locale = "en" | "zh" | "ja";
+type Locale = "en" | "zh" | "ja" | "ko";
 
 interface ChapterSource {
   id: string;
@@ -187,6 +187,7 @@ function countLoc(lines: string[]): number {
 function detectLocale(relPath: string): Locale {
   if (relPath.startsWith("zh/") || relPath.startsWith("zh\\")) return "zh";
   if (relPath.startsWith("ja/") || relPath.startsWith("ja\\")) return "ja";
+  if (relPath.startsWith("ko/") || relPath.startsWith("ko\\")) return "ko";
   return "en";
 }
 
@@ -261,7 +262,7 @@ function rewriteChapterMarkdown(
   let next = content;
 
   next = next.replace(
-    /^\[English\]\(README\.md\)\s*.\s*\[中文\]\(README\.zh\.md\)\s*.\s*\[日本語\]\(README\.ja\.md\)\n\n?/m,
+    /^\[English\]\(README\.md\)\s*.\s*\[中文\]\(README\.zh\.md\)\s*.\s*\[日本語\]\(README\.ja\.md\)(?:\s*.\s*\[한국어\]\(README\.ko\.md\))?\n\n?/m,
     ""
   );
 
@@ -362,7 +363,7 @@ function buildLegacyVersions(): AgentVersion[] {
 
 function buildRootDocs(chapters: ChapterSource[]): DocContent[] {
   const docs: DocContent[] = [];
-  const locales: Locale[] = ["en", "zh", "ja"];
+  const locales: Locale[] = ["en", "zh", "ja", "ko"];
 
   for (const chapter of chapters) {
     for (const locale of locales) {
@@ -388,7 +389,7 @@ function buildLegacyDocs(): DocContent[] {
   const docs: DocContent[] = [];
   if (!fs.existsSync(LEGACY_DOCS_DIR)) return docs;
 
-  const localeDirs: Locale[] = ["en", "zh", "ja"];
+  const localeDirs: Locale[] = ["en", "zh", "ja", "ko"];
   for (const locale of localeDirs) {
     const localeDir = path.join(LEGACY_DOCS_DIR, locale);
     if (!fs.existsSync(localeDir)) continue;
