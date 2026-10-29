@@ -18,7 +18,7 @@ s01 → s02 → s03 → s04 → s05 → `s06` → [s07](../s07_skill_loading/) �
 
 ## 해결 방법
 
-![Subagent Overview](images/subagent-overview.en.svg)
+![서브에이전트 개요](images/subagent-overview.ko.svg)
 
 `task`를 호출하면 새 `messages[]`를 가진 중첩 에이전트 루프가 동기적으로 실행됩니다. 그 루프가 끝나면 최종 텍스트가 부모 대화의 도구 결과가 됩니다.
 

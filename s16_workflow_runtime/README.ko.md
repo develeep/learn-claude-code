@@ -26,7 +26,7 @@ s01부터 s15까지는 모델이 라운드마다 어떤 도구를 호출할지 �
 
 워크플로는 `tool_use` 하나로 메인 루프에 들어갑니다. 스크립트가 실행되는 동안 런타임은 생명주기 이벤트와 진행 이벤트를 내보내고, 모든 단계를 디스크의 저널에 기록합니다. 스크립트가 끝나면 호출은 시작 정보(launch envelope), 결과, 작업 상태를 돌려줍니다. 스크립트의 중간 결과는 대화 기록에 자리를 차지하지 않고 변수에 머뭅니다. `resume_from_run_id`로 다시 시작하면, 바뀌지 않은 `agent()` 호출은 저널 캐시에 적중해 이전 결과를 그대로 씁니다.
 
-![Workflow Runtime Overview](images/workflow-runtime-overview.svg)
+![워크플로 런타임 개요](images/workflow-runtime-overview.ko.svg)
 
 ```python
 SAMPLE_META = {"name": "review-changes", "description": "Review code changes", "phases": ["Review", "Verify"]}

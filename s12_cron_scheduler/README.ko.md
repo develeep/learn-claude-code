@@ -16,7 +16,7 @@ S11은 명령이 시작된 뒤 실행되는 방식을 바꿉니다. 오래 걸�
 
 ## 해결 방법
 
-![Cron Scheduler Overview](images/cron-scheduler-overview.en.svg)
+![Cron 스케줄러 개요](images/cron-scheduler-overview.ko.svg)
 
 에이전트가 다음 작업을 등록했다고 해 봅시다.
 
