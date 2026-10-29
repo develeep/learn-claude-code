@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSteppedVisualization } from "@/hooks/useSteppedVisualization";
 import { StepControls } from "@/components/visualizations/shared/step-controls";
 import { useDarkMode, useSvgPalette } from "@/hooks/useDarkMode";
+import { useLocalText } from "@/lib/i18n";
 
 interface StepInfo {
   title: string;
@@ -161,6 +162,7 @@ export default function BackgroundTasks({ title }: { title?: string }) {
 
   const isDark = useDarkMode();
   const palette = useSvgPalette();
+  const lt = useLocalText();
 
   const stepInfo = STEP_INFO[currentStep];
 
@@ -170,11 +172,11 @@ export default function BackgroundTasks({ title }: { title?: string }) {
   return (
     <section className="min-h-[500px] space-y-4">
       <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
-        {title || "Background Task Lanes"}
+        {title || lt("Background Task Lanes")}
       </h2>
 
       <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-900">
-        <svg viewBox="0 0 780 380" className="w-full" aria-label="Background task lanes">
+        <svg viewBox="0 0 780 380" className="w-full" aria-label={lt("Background task lanes")}>
           <defs>
             <marker
               id="forkArrow"
@@ -237,7 +239,7 @@ export default function BackgroundTasks({ title }: { title?: string }) {
             fill={palette.labelFill}
             textAnchor="end"
           >
-            time
+            {lt("time")}
           </text>
 
           {/* Lane backgrounds and labels */}
@@ -270,7 +272,7 @@ export default function BackgroundTasks({ title }: { title?: string }) {
                 fontWeight="600"
                 fill={palette.labelFill}
               >
-                {label}
+                {lt(label)}
               </text>
             </g>
           ))}
@@ -321,7 +323,7 @@ export default function BackgroundTasks({ title }: { title?: string }) {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3 }}
                   >
-                    {block.label}
+                    {lt(block.label)}
                   </motion.text>
                 )}
                 {isComplete && (
@@ -335,7 +337,7 @@ export default function BackgroundTasks({ title }: { title?: string }) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                   >
-                    done
+                    {lt("done")}
                   </motion.text>
                 )}
               </motion.g>
@@ -399,7 +401,7 @@ export default function BackgroundTasks({ title }: { title?: string }) {
                 fontWeight="600"
                 fill="white"
               >
-                LLM API call
+                {lt("LLM API call")}
               </text>
             </motion.g>
           )}
@@ -423,7 +425,7 @@ export default function BackgroundTasks({ title }: { title?: string }) {
             fontWeight="600"
             fill={palette.labelFill}
           >
-            Notification
+            {lt("Notification")}
           </text>
           <text
             x={TIMELINE_LEFT - 10}
@@ -433,7 +435,7 @@ export default function BackgroundTasks({ title }: { title?: string }) {
             fontWeight="600"
             fill={palette.labelFill}
           >
-            Queue
+            {lt("Queue")}
           </text>
 
           {/* Queue cards */}
@@ -488,7 +490,7 @@ export default function BackgroundTasks({ title }: { title?: string }) {
                       fontFamily="monospace"
                       fill={isDark ? "#f59e0b" : "#92400e"}
                     >
-                      {card.label}
+                      {lt(card.label)}
                     </text>
                   </motion.g>
                 );
@@ -531,7 +533,7 @@ export default function BackgroundTasks({ title }: { title?: string }) {
                     fontFamily="monospace"
                     fill={isDark ? "#10b981" : "#065f46"}
                   >
-                    {card.label}
+                    {lt(card.label)}
                   </text>
                 </motion.g>
               );
@@ -574,7 +576,7 @@ export default function BackgroundTasks({ title }: { title?: string }) {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
             >
-              queue drained -- injected into next LLM call
+              {lt("queue drained -- injected into next LLM call")}
             </motion.text>
           )}
         </svg>
@@ -584,25 +586,25 @@ export default function BackgroundTasks({ title }: { title?: string }) {
           <div className="flex items-center gap-1.5">
             <div className="h-3 w-3 rounded" style={{ background: "#8b5cf6" }} />
             <span className="text-[10px] text-zinc-500 dark:text-zinc-400">
-              Main thread
+              {lt("Main thread")}
             </span>
           </div>
           <div className="flex items-center gap-1.5">
             <div className="h-3 w-3 rounded" style={{ background: "#10b981" }} />
             <span className="text-[10px] text-zinc-500 dark:text-zinc-400">
-              Background 1
+              {lt("Background 1")}
             </span>
           </div>
           <div className="flex items-center gap-1.5">
             <div className="h-3 w-3 rounded" style={{ background: "#3b82f6" }} />
             <span className="text-[10px] text-zinc-500 dark:text-zinc-400">
-              Background 2
+              {lt("Background 2")}
             </span>
           </div>
           <div className="flex items-center gap-1.5">
             <div className="h-3 w-3 rounded" style={{ background: "#f59e0b" }} />
             <span className="text-[10px] text-zinc-500 dark:text-zinc-400">
-              LLM boundary
+              {lt("LLM boundary")}
             </span>
           </div>
         </div>
@@ -616,8 +618,8 @@ export default function BackgroundTasks({ title }: { title?: string }) {
         onReset={reset}
         isPlaying={isPlaying}
         onToggleAutoPlay={toggleAutoPlay}
-        stepTitle={stepInfo.title}
-        stepDescription={stepInfo.description}
+        stepTitle={lt(stepInfo.title)}
+        stepDescription={lt(stepInfo.description)}
       />
     </section>
   );
