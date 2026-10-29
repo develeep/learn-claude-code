@@ -37,7 +37,7 @@ def agent_loop(messages):
 
 ## 해결 방법
 
-![Hooks Overview](images/hooks-overview.en.svg)
+![훅 개요](images/hooks-overview.ko.svg)
 
 s03의 루프와 권한 로직은 그대로 둡니다. 바뀌는 것은 하나뿐입니다. `check_permission()`을 루프 본문 안에서 꺼내 훅으로 옮깁니다. 이제 루프는 검사 함수를 직접 호출하지 않습니다. 대신 `trigger_hooks("PreToolUse", block)`을 호출하고, 무엇을 실행할지는 레지스트리가 정합니다.
 

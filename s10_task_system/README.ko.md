@@ -24,7 +24,7 @@ TodoWrite는 이런 의존 관계나 담당자를 기록하지 않습니다. "AP
 
 ## 해결 방법
 
-![Task System Overview](images/task-system-overview.en.svg)
+![작업 시스템 개요](images/task-system-overview.ko.svg)
 
 코드는 S04의 기본 도구 5개, 권한, 훅, 공용 `execute_tool`을 그대로 두고, 작업 도구 6개, `.tasks/` 디렉터리 저장, `blockedBy` 의존 관계 검사를 더합니다.
 
@@ -45,7 +45,7 @@ TodoWrite와 작업 시스템 비교:
 
 ## 동작 방식
 
-![Task DAG](images/task-dag.en.svg)
+![작업 DAG](images/task-dag.ko.svg)
 
 ### Task: 데이터 구조
 
