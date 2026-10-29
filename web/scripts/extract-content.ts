@@ -241,7 +241,7 @@ function copyChapterAssets(chapter: ChapterSource): ChapterImage[] {
   return fs
     .readdirSync(imagesDir)
     .filter((filename) => filename.endsWith(".svg"))
-    .filter((filename) => !filename.includes(".en.") && !filename.includes(".ja."))
+    .filter((filename) => !/\.(en|ja|ko)\.svg$/.test(filename))
     .sort()
     .map((filename) => ({
       src: `/course-assets/${chapter.dirName}/${filename}`,
