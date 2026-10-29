@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { useLocalText } from "@/lib/i18n";
 
 const FLOW_STEPS = [
   { role: "user", label: "user", color: "bg-blue-500" },
@@ -15,6 +16,7 @@ const FLOW_STEPS = [
 ];
 
 export function MessageFlow() {
+  const lt = useLocalText();
   const [count, setCount] = useState(0);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -56,7 +58,7 @@ export function MessageFlow() {
             className={`flex shrink-0 items-center rounded-md px-1.5 py-1.5 ${step.color}`}
           >
             <span className="whitespace-nowrap font-mono text-[10px] font-medium text-white">
-              {step.label}
+              {lt(step.label)}
             </span>
           </motion.div>
         ))}

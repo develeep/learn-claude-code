@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { diffLines, Change } from "diff";
 import { cn } from "@/lib/utils";
+import { useLocalText } from "@/lib/i18n";
 
 interface CodeDiffProps {
   oldSource: string;
@@ -12,6 +13,7 @@ interface CodeDiffProps {
 }
 
 export function CodeDiff({ oldSource, newSource, oldLabel, newLabel }: CodeDiffProps) {
+  const lt = useLocalText();
   const [viewMode, setViewMode] = useState<"unified" | "split">("unified");
 
   const changes = useMemo(() => diffLines(oldSource, newSource), [oldSource, newSource]);
@@ -34,7 +36,7 @@ export function CodeDiff({ oldSource, newSource, oldLabel, newLabel }: CodeDiffP
                 : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-400"
             )}
           >
-            Unified
+            {lt("Unified")}
           </button>
           <button
             onClick={() => setViewMode("split")}
@@ -45,7 +47,7 @@ export function CodeDiff({ oldSource, newSource, oldLabel, newLabel }: CodeDiffP
                 : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-400"
             )}
           >
-            Split
+            {lt("Split")}
           </button>
         </div>
       </div>

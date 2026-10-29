@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { StepControls } from "@/components/visualizations/shared/step-controls";
 import { useSteppedVisualization } from "@/hooks/useSteppedVisualization";
+import { useLocalText } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 type StageId =
@@ -201,6 +202,7 @@ function StageNode({
   index: number;
   currentIndex: number;
 }) {
+  const lt = useLocalText();
   const active = index === currentIndex;
   const done = index < currentIndex;
 
@@ -233,9 +235,9 @@ function StageNode({
         </span>
         <div className="min-w-0">
           <div className="break-words text-sm font-semibold">
-            {index + 1}. {stage.label}
+            {index + 1}. {lt(stage.label)}
           </div>
-          <div className="break-words text-[11px] leading-snug opacity-80">{stage.detail}</div>
+          <div className="break-words text-[11px] leading-snug opacity-80">{lt(stage.detail)}</div>
         </div>
       </div>
     </motion.div>
@@ -251,6 +253,7 @@ function PacketLine({
   value: string;
   tone?: "zinc" | "blue" | "emerald";
 }) {
+  const lt = useLocalText();
   const toneClass = {
     zinc: "border-zinc-200 bg-white text-zinc-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200",
     blue: "border-blue-200 bg-blue-50 text-blue-800 dark:border-blue-900 dark:bg-blue-950/35 dark:text-blue-200",
@@ -267,13 +270,14 @@ function PacketLine({
       transition={{ duration: 0.22 }}
       className={cn("min-w-0 rounded-md border px-3 py-2 shadow-sm", toneClass)}
     >
-      <div className="font-mono text-[10px] uppercase tracking-normal opacity-70">{label}</div>
-      <div className="mt-1 break-words text-sm font-medium leading-snug">{value}</div>
+      <div className="font-mono text-[10px] uppercase tracking-normal opacity-70">{lt(label)}</div>
+      <div className="mt-1 break-words text-sm font-medium leading-snug">{lt(value)}</div>
     </motion.div>
   );
 }
 
 export default function ComprehensiveVisualization({ title }: { title?: string }) {
+  const lt = useLocalText();
   const vis = useSteppedVisualization({ totalSteps: STEPS.length, autoPlayInterval: 2800 });
   const step = STEPS[vis.currentStep];
   const currentStageIndex = STAGES.findIndex((stage) => stage.id === step.stage);
@@ -281,7 +285,7 @@ export default function ComprehensiveVisualization({ title }: { title?: string }
   return (
     <section className="min-h-[500px] space-y-4">
       <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
-        {title || "Integrated Harness Turn"}
+        {title || lt("Integrated Harness Turn")}
       </h2>
 
       <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-900">
@@ -289,7 +293,7 @@ export default function ComprehensiveVisualization({ title }: { title?: string }
           <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-800/70">
             <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-zinc-800 dark:text-zinc-100">
               <Bot size={16} />
-              One-turn journey
+              {lt("One-turn journey")}
             </div>
             <div className="space-y-2">
               {STAGES.map((stage, index) => (
@@ -308,10 +312,10 @@ export default function ComprehensiveVisualization({ title }: { title?: string }
               <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-2 text-sm font-semibold text-zinc-800 dark:text-zinc-100">
                   <Archive size={16} />
-                  Turn packet
+                  {lt("Turn packet")}
                 </div>
                 <span className="w-fit rounded-md bg-white px-2 py-1 font-mono text-[11px] text-zinc-500 dark:bg-zinc-900 dark:text-zinc-300">
-                  step {vis.currentStep + 1}/{STEPS.length}
+                  {lt("step")} {vis.currentStep + 1}/{STEPS.length}
                 </span>
               </div>
 
@@ -329,7 +333,7 @@ export default function ComprehensiveVisualization({ title }: { title?: string }
                   <div className="grid gap-2 sm:grid-cols-2">
                     <div className="rounded-md border border-zinc-200 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-900">
                       <div className="font-mono text-[10px] uppercase tracking-normal text-zinc-500 dark:text-zinc-400">
-                        carried context
+                        {lt("carried context")}
                       </div>
                       <div className="mt-2 flex flex-wrap gap-1.5">
                         {step.packet.carried.map((item) => (
@@ -337,7 +341,7 @@ export default function ComprehensiveVisualization({ title }: { title?: string }
                             key={item}
                             className="max-w-full break-words rounded bg-zinc-100 px-2 py-1 text-[11px] text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
                           >
-                            {item}
+                            {lt(item)}
                           </span>
                         ))}
                       </div>
@@ -353,7 +357,7 @@ export default function ComprehensiveVisualization({ title }: { title?: string }
             <div className="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-900">
               <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-zinc-800 dark:text-zinc-100">
                 <FileText size={15} />
-                Source-of-truth transcript
+                {lt("Source-of-truth transcript")}
               </div>
               <div className="space-y-2">
                 <AnimatePresence mode="popLayout">
@@ -367,7 +371,7 @@ export default function ComprehensiveVisualization({ title }: { title?: string }
                       transition={{ duration: 0.22 }}
                       className="break-words rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs text-zinc-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
                     >
-                      {item}
+                      {lt(item)}
                     </motion.div>
                   ))}
                 </AnimatePresence>
@@ -386,10 +390,10 @@ export default function ComprehensiveVisualization({ title }: { title?: string }
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-zinc-100 text-zinc-500 dark:bg-zinc-900 dark:text-zinc-300">
                   {surface.icon}
                 </span>
-                <span className="break-words">{surface.label}</span>
+                <span className="break-words">{lt(surface.label)}</span>
               </div>
               <div className="mt-2 break-words text-[11px] leading-snug text-zinc-500 dark:text-zinc-400">
-                {surface.text}
+                {lt(surface.text)}
               </div>
             </div>
           ))}
@@ -404,8 +408,8 @@ export default function ComprehensiveVisualization({ title }: { title?: string }
           onReset={vis.reset}
           isPlaying={vis.isPlaying}
           onToggleAutoPlay={vis.toggleAutoPlay}
-          stepTitle={step.title}
-          stepDescription={step.desc}
+          stepTitle={lt(step.title)}
+          stepDescription={lt(step.desc)}
         />
       </div>
     </section>

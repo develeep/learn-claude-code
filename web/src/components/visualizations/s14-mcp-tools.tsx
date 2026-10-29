@@ -5,6 +5,7 @@ import { Cable, CheckCircle2, PlugZap, Search, Server, Wrench } from "lucide-rea
 import { StepControls } from "@/components/visualizations/shared/step-controls";
 import { useSteppedVisualization } from "@/hooks/useSteppedVisualization";
 import { cn } from "@/lib/utils";
+import { useLocalText } from "@/lib/i18n";
 
 const STEPS = [
   {
@@ -115,6 +116,7 @@ function Shelf({
 }
 
 export default function McpToolsVisualization({ title }: { title?: string }) {
+  const lt = useLocalText();
   const vis = useSteppedVisualization({ totalSteps: STEPS.length, autoPlayInterval: 2500 });
   const step = vis.currentStep;
   const current = STEPS[step];
@@ -127,13 +129,13 @@ export default function McpToolsVisualization({ title }: { title?: string }) {
   return (
     <section className="min-h-[500px] space-y-4">
       <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
-        {title || "MCP Tool Bridge"}
+        {title || lt("MCP Tool Bridge")}
       </h2>
 
       <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-900">
         <div className="grid gap-3 lg:grid-cols-[1fr_1.2fr_1fr]">
           <Shelf
-            title="Built-in belt"
+            title={lt("Built-in belt")}
             icon={<Wrench size={15} />}
             active={current.active === "need"}
           >
@@ -142,14 +144,14 @@ export default function McpToolsVisualization({ title }: { title?: string }) {
                 <ToolChip key={tool} label={tool} />
               ))}
               <div className="rounded-md border border-dashed border-zinc-300 px-3 py-5 text-center text-xs text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
-                limited to local skills
+                {lt("limited to local skills")}
               </div>
             </div>
           </Shelf>
 
           <div className="space-y-3">
             <Shelf
-              title="External toolbox"
+              title={lt("External toolbox")}
               icon={<Server size={15} />}
               active={current.active === "server" || current.active === "discover"}
             >
@@ -166,7 +168,7 @@ export default function McpToolsVisualization({ title }: { title?: string }) {
                       : "bg-zinc-100 text-zinc-500 dark:bg-zinc-700 dark:text-zinc-300"
                   )}
                 >
-                  {connected ? "connected" : "offline"}
+                  {lt(connected ? "connected" : "offline")}
                 </span>
               </div>
               <div className="mt-3 grid gap-2 sm:grid-cols-3">
@@ -183,7 +185,7 @@ export default function McpToolsVisualization({ title }: { title?: string }) {
                       exit={{ opacity: 0 }}
                       className="col-span-full rounded-md border border-dashed border-zinc-300 px-3 py-5 text-center text-xs text-zinc-500 dark:border-zinc-700 dark:text-zinc-400"
                     >
-                      schemas hidden until connected
+                      {lt("schemas hidden until connected")}
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -191,7 +193,7 @@ export default function McpToolsVisualization({ title }: { title?: string }) {
             </Shelf>
 
             <Shelf
-              title="Agent workbench"
+              title={lt("Agent workbench")}
               icon={<PlugZap size={15} />}
               active={current.active === "belt" || current.active === "call"}
             >
@@ -213,7 +215,7 @@ export default function McpToolsVisualization({ title }: { title?: string }) {
                       exit={{ opacity: 0 }}
                       className="col-span-full rounded-md border border-dashed border-zinc-300 px-3 py-4 text-center text-xs text-zinc-500 dark:border-zinc-700 dark:text-zinc-400"
                     >
-                      no MCP tools on the belt
+                      {lt("no MCP tools on the belt")}
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -222,7 +224,7 @@ export default function McpToolsVisualization({ title }: { title?: string }) {
           </div>
 
           <Shelf
-            title="Call notebook"
+            title={lt("Call notebook")}
             icon={called ? <Search size={15} /> : <CheckCircle2 size={15} />}
             active={current.active === "call" || current.active === "result"}
           >
@@ -232,7 +234,7 @@ export default function McpToolsVisualization({ title }: { title?: string }) {
                 transition={{ duration: 1, repeat: called && !returned ? Infinity : 0 }}
               className="break-all rounded-md border border-zinc-200 bg-zinc-50 p-3 font-mono text-[11px] leading-snug text-zinc-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
               >
-                {called ? "mcp__docs__search({ query })" : "waiting for a tool call"}
+                {called ? "mcp__docs__search({ query })" : lt("waiting for a tool call")}
               </motion.div>
               <AnimatePresence>
                 {returned && (
@@ -242,7 +244,7 @@ export default function McpToolsVisualization({ title }: { title?: string }) {
                     exit={{ opacity: 0 }}
                     className="break-words rounded-md border border-emerald-200 bg-emerald-50 p-3 text-xs leading-snug text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-200"
                   >
-                    tool_result: 3 relevant docs found
+                    {lt("tool_result: 3 relevant docs found")}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -259,8 +261,8 @@ export default function McpToolsVisualization({ title }: { title?: string }) {
           onReset={vis.reset}
           isPlaying={vis.isPlaying}
           onToggleAutoPlay={vis.toggleAutoPlay}
-          stepTitle={current.title}
-          stepDescription={current.desc}
+          stepTitle={lt(current.title)}
+          stepDescription={lt(current.desc)}
         />
       </div>
     </section>

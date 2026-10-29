@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { LAYERS } from "@/lib/constants";
 import versionsData from "@/data/generated/versions.json";
+import { useLocalText } from "@/lib/i18n";
 
 const CLASS_DESCRIPTIONS: Record<string, string> = {
   TodoManager: "Visible task planning with constraints",
@@ -101,6 +102,7 @@ function getNewClassNames(version: string): Set<string> {
 }
 
 export function ArchDiagram({ version }: ArchDiagramProps) {
+  const lt = useLocalText();
   const allClasses = collectClassesForVersion(version);
   const newClassNames = getNewClassNames(version);
   const versionData = versionsData.versions.find((v) => v.id === version);
@@ -179,7 +181,7 @@ export function ArchDiagram({ version }: ArchDiagramProps) {
                       : "text-zinc-400 dark:text-zinc-500"
                   )}
                 >
-                  {CLASS_DESCRIPTIONS[cls.name] || ""}
+                  {CLASS_DESCRIPTIONS[cls.name] ? lt(CLASS_DESCRIPTIONS[cls.name]) : ""}
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -200,7 +202,7 @@ export function ArchDiagram({ version }: ArchDiagramProps) {
 
       {allClasses.length === 0 && (
         <div className="rounded-lg border border-dashed border-zinc-300 px-4 py-6 text-center text-sm text-zinc-400 dark:border-zinc-600">
-          No classes in this version (functions only)
+          {lt("No classes in this version (functions only)")}
         </div>
       )}
 

@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { CheckCircle2, ClipboardCheck, OctagonAlert, PlayCircle, ShieldAlert, ShieldCheck, UserCheck } from "lucide-react";
 import { StepControls } from "@/components/visualizations/shared/step-controls";
 import { useSteppedVisualization } from "@/hooks/useSteppedVisualization";
+import { useLocalText } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 const STEPS = [
@@ -85,6 +86,7 @@ function Surface({
   active: boolean;
   children: React.ReactNode;
 }) {
+  const lt = useLocalText();
   return (
     <div
       className={cn(
@@ -105,7 +107,7 @@ function Surface({
         >
           {icon}
         </span>
-        {title}
+        {lt(title)}
       </div>
       {children}
     </div>
@@ -131,6 +133,7 @@ function RequestCard({
   active: boolean;
   muted: boolean;
 }) {
+  const lt = useLocalText();
   return (
     <motion.div
       layout
@@ -142,7 +145,7 @@ function RequestCard({
       )}
     >
       <div className="mb-3 flex items-center justify-between gap-3">
-        <div className="min-w-0 text-sm font-semibold">tool request</div>
+        <div className="min-w-0 text-sm font-semibold">{lt("tool request")}</div>
         <span className="shrink-0 rounded-full bg-white/70 px-2 py-1 font-mono text-xs font-semibold dark:bg-zinc-950/30">
           {request.tool}
         </span>
@@ -151,7 +154,7 @@ function RequestCard({
         {request.command}
       </code>
       <div className="mt-3 flex items-center justify-between gap-3 text-sm">
-        <span className="min-w-0 text-pretty opacity-80">{request.detail}</span>
+        <span className="min-w-0 text-pretty opacity-80">{lt(request.detail)}</span>
         <span className="shrink-0 rounded bg-white/75 px-2 py-1 font-semibold dark:bg-zinc-950/30">
           {request.result}
         </span>
@@ -171,6 +174,7 @@ function CheckRow({
   status: "waiting" | "pass" | "allow" | "ask" | "approved" | "deny" | "skip";
   active: boolean;
 }) {
+  const lt = useLocalText();
   const icon =
     status === "deny" ? <OctagonAlert size={16} /> : status === "pass" || status === "allow" ? <CheckCircle2 size={16} /> : status === "ask" ? <ShieldAlert size={16} /> : status === "approved" ? <UserCheck size={16} /> : <ClipboardCheck size={16} />;
   const tone = status === "deny" ? "red" : status === "pass" || status === "allow" || status === "approved" ? "emerald" : status === "ask" ? "amber" : "zinc";
@@ -188,13 +192,13 @@ function CheckRow({
       <div className="mb-1 flex items-center justify-between gap-2">
         <div className="flex items-center gap-2 text-sm font-semibold">
           {icon}
-          {label}
+          {lt(label)}
         </div>
         <span className="shrink-0 rounded bg-white/70 px-2 py-0.5 text-[11px] font-semibold dark:bg-zinc-950/30">
           {status}
         </span>
       </div>
-      <div className="text-xs leading-relaxed opacity-80">{detail}</div>
+      <div className="text-xs leading-relaxed opacity-80">{lt(detail)}</div>
     </motion.div>
   );
 }
@@ -249,8 +253,9 @@ function CodeLine({ label, value }: { label: string; value: string }) {
 }
 
 function Outcome({ mode }: { mode: StepMode }) {
+  const lt = useLocalText();
   if (mode === "overview") {
-    return <div className="rounded-lg border border-dashed border-zinc-300 px-4 py-8 text-center text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">select a request route</div>;
+    return <div className="rounded-lg border border-dashed border-zinc-300 px-4 py-8 text-center text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">{lt("select a request route")}</div>;
   }
 
   if (mode === "allow") {
@@ -258,7 +263,7 @@ function Outcome({ mode }: { mode: StepMode }) {
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className={cn("space-y-3 rounded-xl border p-4", toneClass("emerald"))}>
         <div className="flex items-center gap-2 text-base font-semibold">
           <PlayCircle size={17} />
-          Handler runs now
+          {lt("Handler runs now")}
         </div>
         <CodeLine label="handler" value="read_file" />
         <CodeLine label="args" value='path: "README.md"' />
@@ -271,9 +276,9 @@ function Outcome({ mode }: { mode: StepMode }) {
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className={cn("rounded-xl border p-4", toneClass("amber"))}>
         <div className="mb-2 flex items-center gap-2 text-base font-semibold">
           <UserCheck size={17} />
-          Approval ticket
+          {lt("Approval ticket")}
         </div>
-        <div className="text-sm leading-relaxed">"Allow deleting local build cache?"</div>
+        <div className="text-sm leading-relaxed">"{lt("Allow deleting local build cache?")}"</div>
       </motion.div>
     );
   }
@@ -283,7 +288,7 @@ function Outcome({ mode }: { mode: StepMode }) {
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className={cn("space-y-3 rounded-xl border p-4", toneClass("blue"))}>
         <div className="flex items-center gap-2 text-base font-semibold">
           <PlayCircle size={17} />
-          Handler runs after approval
+          {lt("Handler runs after approval")}
         </div>
         <CodeLine label="handler" value="bash" />
         <CodeLine label="args" value="rm -rf ./tmp/build-cache" />
@@ -296,9 +301,9 @@ function Outcome({ mode }: { mode: StepMode }) {
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className={cn("rounded-xl border p-4", toneClass("red"))}>
         <div className="mb-2 flex items-center gap-2 text-base font-semibold">
           <OctagonAlert size={17} />
-          Blocked before handler
+          {lt("Blocked before handler")}
         </div>
-        <div className="text-sm leading-relaxed">No tool execution, no user prompt, no filesystem touch.</div>
+        <div className="text-sm leading-relaxed">{lt("No tool execution, no user prompt, no filesystem touch.")}</div>
       </motion.div>
     );
   }
@@ -311,15 +316,15 @@ function Outcome({ mode }: { mode: StepMode }) {
             {request.result === "deny" ? <OctagonAlert size={15} /> : request.result === "ask" ? <ShieldAlert size={15} /> : <ShieldCheck size={15} />}
             {request.result}
           </div>
-          <div className="text-xs leading-relaxed opacity-80">{request.detail}</div>
+          <div className="text-xs leading-relaxed opacity-80">{lt(request.detail)}</div>
         </div>
       ))}
       <div className={cn("rounded-xl border p-4", toneClass("emerald"))}>
         <div className="mb-2 flex items-center gap-2 text-base font-semibold">
         <ShieldCheck size={17} />
-          decision returned to loop
+          {lt("decision returned to loop")}
         </div>
-        <div className="text-sm leading-relaxed">Permission stays outside the model, but the loop still receives a normal tool_result or blocked result.</div>
+        <div className="text-sm leading-relaxed">{lt("Permission stays outside the model, but the loop still receives a normal tool_result or blocked result.")}</div>
       </div>
     </motion.div>
   );
@@ -331,11 +336,12 @@ export default function PermissionVisualization({ title }: { title?: string }) {
   const current = STEPS[step];
   const mode = current.mode;
   const activeId = activeRequestId(mode);
+  const lt = useLocalText();
 
   return (
     <section className="min-h-[500px] space-y-4">
       <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
-        {title || "Permission Desk"}
+        {title || lt("Permission Desk")}
       </h2>
 
       <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-900">
@@ -365,7 +371,7 @@ export default function PermissionVisualization({ title }: { title?: string }) {
         </div>
 
         <div className="mt-3 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm leading-relaxed text-zinc-600 dark:border-zinc-700 dark:bg-zinc-800/70 dark:text-zinc-300">
-          Beginner rule: the model proposes tools; the runtime routes each request to allow, ask, or deny before execution.
+          {lt("Beginner rule: the model proposes tools; the runtime routes each request to allow, ask, or deny before execution.")}
         </div>
 
         <StepControls
@@ -377,8 +383,8 @@ export default function PermissionVisualization({ title }: { title?: string }) {
           onReset={vis.reset}
           isPlaying={vis.isPlaying}
           onToggleAutoPlay={vis.toggleAutoPlay}
-          stepTitle={current.title}
-          stepDescription={current.desc}
+          stepTitle={lt(current.title)}
+          stepDescription={lt(current.desc)}
         />
       </div>
     </section>

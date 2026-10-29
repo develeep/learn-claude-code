@@ -69,7 +69,7 @@ export default function ComparePage() {
             onChange={(e) => setVersionA(e.target.value)}
             className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
           >
-            <option value="">-- select --</option>
+            <option value="">{lt("-- select --")}</option>
             {LEARNING_PATH.map((v) => (
               <option key={v} value={v}>
                 {v} - {lt(VERSION_META[v]?.title ?? "")}
@@ -89,7 +89,7 @@ export default function ComparePage() {
             onChange={(e) => setVersionB(e.target.value)}
             className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
           >
-            <option value="">-- select --</option>
+            <option value="">{lt("-- select --")}</option>
             {LEARNING_PATH.map((v) => (
               <option key={v} value={v}>
                 {v} - {lt(VERSION_META[v]?.title ?? "")}
@@ -111,7 +111,7 @@ export default function ComparePage() {
               </CardHeader>
               <div className="space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
                 <p>{infoA.loc} LOC</p>
-                <p>{infoA.tools.length} tools</p>
+                <p>{infoA.tools.length} {lt("tools")}</p>
                 {metaA && <LayerBadge layer={metaA.layer}>{metaA.layer}</LayerBadge>}
               </div>
             </Card>
@@ -122,7 +122,7 @@ export default function ComparePage() {
               </CardHeader>
               <div className="space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
                 <p>{infoB.loc} LOC</p>
-                <p>{infoB.tools.length} tools</p>
+                <p>{infoB.tools.length} {lt("tools")}</p>
                 {metaB && <LayerBadge layer={metaB.layer}>{metaB.layer}</LayerBadge>}
               </div>
             </Card>

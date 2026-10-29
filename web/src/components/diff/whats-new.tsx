@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useTranslations } from "@/lib/i18n";
+import { useTranslations, useLocalText } from "@/lib/i18n";
 import { Card } from "@/components/ui/card";
 
 interface WhatsNewProps {
@@ -18,6 +18,7 @@ interface WhatsNewProps {
 export function WhatsNew({ diff }: WhatsNewProps) {
   const t = useTranslations("version");
   const td = useTranslations("diff");
+  const lt = useLocalText();
 
   if (!diff) {
     return null;
@@ -122,7 +123,7 @@ export function WhatsNew({ diff }: WhatsNewProps) {
                   {td("loc_delta")}
                 </h3>
                 <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
-                  +{diff.locDelta} lines
+                  +{diff.locDelta} {lt("lines")}
                 </p>
               </div>
             </Card>

@@ -5,6 +5,7 @@ import { ClipboardList, FileSearch, LogOut, PlugZap, RadioTower, ScrollText, Wre
 import { StepControls } from "@/components/visualizations/shared/step-controls";
 import { useSteppedVisualization } from "@/hooks/useSteppedVisualization";
 import { cn } from "@/lib/utils";
+import { useLocalText } from "@/lib/i18n";
 
 type HookId = "UserPromptSubmit" | "PreToolUse" | "PostToolUse" | "Stop";
 
@@ -126,6 +127,7 @@ function HookCard({
   hook: (typeof HOOKS)[number];
   active: boolean;
 }) {
+  const lt = useLocalText();
   return (
     <motion.div
       layout
@@ -137,7 +139,7 @@ function HookCard({
         <div className="min-w-0 truncate font-mono text-sm font-semibold">{hook.id}</div>
         {active && <PlugZap size={16} className="shrink-0" />}
       </div>
-      <div className="mb-3 text-xs leading-relaxed opacity-80">{hook.when}</div>
+      <div className="mb-3 text-xs leading-relaxed opacity-80">{lt(hook.when)}</div>
       <div className="flex flex-wrap gap-1.5">
         {hook.callbacks.map((callback) => (
           <span key={callback} className="rounded bg-white/70 px-2 py-1 font-mono text-[11px] dark:bg-zinc-950/30">
@@ -150,6 +152,7 @@ function HookCard({
 }
 
 function TurnCard({ step }: { step: number }) {
+  const lt = useLocalText();
   const state =
     step <= 1
       ? { title: "User input", body: "Read README.md and summarize it.", icon: <ScrollText size={18} /> }
@@ -170,16 +173,17 @@ function TurnCard({ step }: { step: number }) {
     >
       <div className="mb-2 flex items-center gap-2 text-base font-semibold text-zinc-900 dark:text-zinc-100">
         {state.icon}
-        {state.title}
+        {lt(state.title)}
       </div>
       <div className="rounded-lg bg-zinc-50 p-3 font-mono text-xs leading-relaxed text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300">
-        {state.body}
+        {lt(state.body)}
       </div>
     </motion.div>
   );
 }
 
 function AuditLog({ step }: { step: number }) {
+  const lt = useLocalText();
   const items = [
     "[registry] four hook slots registered",
     "[UserPromptSubmit] working directory logged",
@@ -202,7 +206,7 @@ function AuditLog({ step }: { step: number }) {
             transition={{ duration: 0.2 }}
             className="rounded-lg border border-zinc-200 bg-white px-3 py-2 font-mono text-xs text-zinc-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"
           >
-            {item}
+            {lt(item)}
           </motion.div>
         ))}
       </AnimatePresence>
@@ -215,20 +219,21 @@ export default function HooksVisualization({ title }: { title?: string }) {
   const step = vis.currentStep;
   const current = STEPS[step];
   const activeHook = current.active;
+  const lt = useLocalText();
 
   return (
     <section className="min-h-[500px] space-y-4">
       <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
-        {title || "Hook Workbench"}
+        {title || lt("Hook Workbench")}
       </h2>
 
       <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-900">
         <div className="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm leading-relaxed text-emerald-900 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-200">
-          The loop stays boring on purpose: it calls <span className="font-mono">trigger_hooks(event)</span>, and the registry decides what extra logic runs.
+          {lt("The loop stays boring on purpose: it calls ")}<span className="font-mono">trigger_hooks(event)</span>{lt(", and the registry decides what extra logic runs.")}
         </div>
 
         <div className="grid gap-3 xl:grid-cols-[1.15fr_0.85fr]">
-          <Surface title="Hook registry" icon={<RadioTower size={20} />} active={step === 0 || activeHook !== null}>
+          <Surface title={lt("Hook registry")} icon={<RadioTower size={20} />} active={step === 0 || activeHook !== null}>
             <div className="grid gap-2 sm:grid-cols-2">
               {HOOKS.map((hook) => (
                 <HookCard key={hook.id} hook={hook} active={activeHook === hook.id} />
@@ -236,11 +241,11 @@ export default function HooksVisualization({ title }: { title?: string }) {
             </div>
           </Surface>
 
-          <Surface title="This turn" icon={<ScrollText size={20} />} active={step >= 1}>
+          <Surface title={lt("This turn")} icon={<ScrollText size={20} />} active={step >= 1}>
             <div className="space-y-3">
               <TurnCard step={step} />
               <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-800/70">
-                <div className="mb-2 text-sm font-semibold text-zinc-800 dark:text-zinc-100">Audit log</div>
+                <div className="mb-2 text-sm font-semibold text-zinc-800 dark:text-zinc-100">{lt("Audit log")}</div>
                 <AuditLog step={step} />
               </div>
             </div>
@@ -248,7 +253,7 @@ export default function HooksVisualization({ title }: { title?: string }) {
         </div>
 
         <div className="mt-4 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm leading-relaxed text-zinc-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
-          Beginner rule: adding behavior means registering a callback, not editing the core model-tool-result loop.
+          {lt("Beginner rule: adding behavior means registering a callback, not editing the core model-tool-result loop.")}
         </div>
 
         <StepControls
@@ -260,8 +265,8 @@ export default function HooksVisualization({ title }: { title?: string }) {
           onReset={vis.reset}
           isPlaying={vis.isPlaying}
           onToggleAutoPlay={vis.toggleAutoPlay}
-          stepTitle={current.title}
-          stepDescription={current.desc}
+          stepTitle={lt(current.title)}
+          stepDescription={lt(current.desc)}
         />
       </div>
     </section>

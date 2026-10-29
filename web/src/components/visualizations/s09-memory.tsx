@@ -5,6 +5,7 @@ import { BookOpen, CheckCircle2, FileText, Inbox, Search, Sparkles } from "lucid
 import { StepControls } from "@/components/visualizations/shared/step-controls";
 import { useSteppedVisualization } from "@/hooks/useSteppedVisualization";
 import { cn } from "@/lib/utils";
+import { useLocalText } from "@/lib/i18n";
 
 type MemoryType = "feedback" | "project" | "reference";
 
@@ -100,6 +101,7 @@ function Surface({
   children: React.ReactNode;
   className?: string;
 }) {
+  const lt = useLocalText();
   return (
     <div
       className={cn(
@@ -121,7 +123,7 @@ function Surface({
         >
           {icon}
         </span>
-        <span className="min-w-0 break-words">{title}</span>
+        <span className="min-w-0 break-words">{lt(title)}</span>
       </div>
       {children}
     </div>
@@ -137,6 +139,7 @@ function QuoteCard({ children }: { children: React.ReactNode }) {
 }
 
 function CatalogRow({ file, visible, selected }: { file: MemoryFile; visible: boolean; selected: boolean }) {
+  const lt = useLocalText();
   if (!visible) return null;
   return (
     <motion.div
@@ -152,14 +155,14 @@ function CatalogRow({ file, visible, selected }: { file: MemoryFile; visible: bo
     >
       <div className="mb-1 flex min-w-0 items-center justify-between gap-2">
         <div className="min-w-0 truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-          {file.title}
+          {lt(file.title)}
         </div>
         <span className={cn("shrink-0 rounded px-2 py-0.5 text-[11px] font-semibold", typeClass(file.type))}>
           {file.type}
         </span>
       </div>
       <div className="line-clamp-2 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
-        {file.description}
+        {lt(file.description)}
       </div>
       <div className="mt-2 truncate font-mono text-[11px] text-zinc-400">
         {file.filename}
@@ -169,6 +172,7 @@ function CatalogRow({ file, visible, selected }: { file: MemoryFile; visible: bo
 }
 
 function MemoryDetail({ file, selected }: { file: MemoryFile; selected: boolean }) {
+  const lt = useLocalText();
   return (
     <motion.div
       key={`${file.id}-${selected}`}
@@ -184,7 +188,7 @@ function MemoryDetail({ file, selected }: { file: MemoryFile; selected: boolean 
       <div className="mb-3 flex min-w-0 flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
         <div className="min-w-0">
           <div className="break-words text-base font-bold text-zinc-900 dark:text-zinc-100">
-            {file.title}
+            {lt(file.title)}
           </div>
           <div className="mt-1 truncate font-mono text-xs text-zinc-500 dark:text-zinc-400">
             {file.filename}
@@ -193,26 +197,28 @@ function MemoryDetail({ file, selected }: { file: MemoryFile; selected: boolean 
         {selected && (
           <span className="flex shrink-0 items-center gap-1 rounded-full bg-violet-500 px-2.5 py-1 text-xs font-semibold text-white">
             <CheckCircle2 size={13} />
-            selected
+            {lt("selected")}
           </span>
         )}
       </div>
       <div className="rounded-lg bg-white p-3 text-sm leading-relaxed text-zinc-700 dark:bg-zinc-900 dark:text-zinc-200">
-        {file.body}
+        {lt(file.body)}
       </div>
     </motion.div>
   );
 }
 
 function EmptyState({ label }: { label: string }) {
+  const lt = useLocalText();
   return (
     <div className="rounded-lg border border-dashed border-zinc-300 px-4 py-8 text-center text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
-      {label}
+      {lt(label)}
     </div>
   );
 }
 
 export default function MemoryVisualization({ title }: { title?: string }) {
+  const lt = useLocalText();
   const vis = useSteppedVisualization({ totalSteps: STEPS.length, autoPlayInterval: 2500 });
   const step = vis.currentStep;
   const current = STEPS[step];
@@ -225,7 +231,7 @@ export default function MemoryVisualization({ title }: { title?: string }) {
   return (
     <section className="min-h-[500px] space-y-4">
       <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
-        {title || "Memory Library"}
+        {title || lt("Memory Library")}
       </h2>
 
       <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-900">
@@ -245,7 +251,7 @@ export default function MemoryVisualization({ title }: { title?: string }) {
                     : "bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-300"
                 )}
               >
-                {index + 1}. {label}
+                {index + 1}. {lt(label)}
               </div>
             );
           })}
@@ -254,7 +260,7 @@ export default function MemoryVisualization({ title }: { title?: string }) {
         <div className="grid gap-3 xl:grid-cols-2">
           <Surface title="Session A: learn" icon={<Inbox size={20} />} active={step <= 2}>
             <div className="space-y-3">
-              <QuoteCard>"Please keep LCC pages concrete for beginners."</QuoteCard>
+              <QuoteCard>{lt('"Please keep LCC pages concrete for beginners."')}</QuoteCard>
               <AnimatePresence>
                 {step >= 1 && (
                   <motion.div
@@ -264,8 +270,8 @@ export default function MemoryVisualization({ title }: { title?: string }) {
                     exit={{ opacity: 0 }}
                     className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-relaxed text-amber-900 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200"
                   >
-                    <div className="mb-1 text-base font-semibold">Memory extractor stamp</div>
-                    Save a durable preference after the useful work is done.
+                    <div className="mb-1 text-base font-semibold">{lt("Memory extractor stamp")}</div>
+                    {lt("Save a durable preference after the useful work is done.")}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -278,29 +284,29 @@ export default function MemoryVisualization({ title }: { title?: string }) {
           <Surface title="Session B: recall" icon={selected ? <Search size={20} /> : <Sparkles size={20} />} active={futureVisible}>
             <div className="space-y-3">
               {!futureVisible && <EmptyState label="future request has not arrived" />}
-              {futureVisible && <QuoteCard>"Continue improving the web lesson visuals."</QuoteCard>}
+              {futureVisible && <QuoteCard>{lt('"Continue improving the web lesson visuals."')}</QuoteCard>}
               {selected && (
                 <motion.div
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="rounded-lg border border-violet-200 bg-violet-50 p-4 text-sm leading-relaxed text-violet-900 dark:border-violet-900 dark:bg-violet-950/40 dark:text-violet-200"
                 >
-                  Catalog search selects <span className="font-mono">lcc_visual_preference.md</span>
+                  {lt("Catalog search selects")} <span className="font-mono">lcc_visual_preference.md</span>
                 </motion.div>
               )}
               {injected && (
                 <div className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-900">
                   <div className="mb-3 text-base font-semibold text-zinc-900 dark:text-zinc-100">
-                    Reading stack before LLM
+                    {lt("Reading stack before LLM")}
                   </div>
                   <div className="grid gap-2">
-                    <div className="rounded-lg bg-zinc-100 px-3 py-2 text-sm dark:bg-zinc-800">current request</div>
+                    <div className="rounded-lg bg-zinc-100 px-3 py-2 text-sm dark:bg-zinc-800">{lt("current request")}</div>
                     <div className="rounded-lg bg-violet-100 px-3 py-2 text-sm text-violet-800 dark:bg-violet-900/30 dark:text-violet-200">
-                      selected memory detail
+                      {lt("selected memory detail")}
                     </div>
                     {step >= 7 && (
                       <div className="rounded-lg bg-emerald-100 px-3 py-2 text-sm text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-200">
-                        answer keeps the user's preference
+                        {lt("answer keeps the user's preference")}
                       </div>
                     )}
                   </div>
@@ -320,7 +326,7 @@ export default function MemoryVisualization({ title }: { title?: string }) {
             <div className="min-w-0 rounded-xl border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-800/70">
               <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-zinc-800 dark:text-zinc-100">
                 <FileText size={16} />
-                MEMORY.md catalog
+                {lt("MEMORY.md catalog")}
               </div>
               <div className="space-y-2">
                 {MEMORY_FILES.map((file, index) => (
@@ -337,7 +343,7 @@ export default function MemoryVisualization({ title }: { title?: string }) {
 
             <div className="min-w-0">
               <div className="mb-3 text-sm font-semibold text-zinc-500 dark:text-zinc-400">
-                Memory file preview
+                {lt("Memory file preview")}
               </div>
               {step >= 2 ? (
                 <div className="grid gap-3">
@@ -350,14 +356,14 @@ export default function MemoryVisualization({ title }: { title?: string }) {
                       >
                         <div className="flex min-w-0 items-center justify-between gap-2">
                           <div className="min-w-0 truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
-                            {file.title}
+                            {lt(file.title)}
                           </div>
                           <span className={cn("shrink-0 rounded px-2 py-0.5 text-[11px] font-semibold", typeClass(file.type))}>
-                            not loaded
+                            {lt("not loaded")}
                           </span>
                         </div>
                         <div className="mt-1 line-clamp-2 text-xs text-zinc-500 dark:text-zinc-400">
-                          {file.description}
+                          {lt(file.description)}
                         </div>
                       </div>
                     ))}
@@ -371,7 +377,7 @@ export default function MemoryVisualization({ title }: { title?: string }) {
         </Surface>
 
         <div className="mt-4 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm leading-relaxed text-zinc-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
-          Beginner rule: the catalog stays cheap and readable; full memory files are borrowed only when the current request needs them.
+          {lt("Beginner rule: the catalog stays cheap and readable; full memory files are borrowed only when the current request needs them.")}
         </div>
 
         <StepControls
@@ -383,8 +389,8 @@ export default function MemoryVisualization({ title }: { title?: string }) {
           onReset={vis.reset}
           isPlaying={vis.isPlaying}
           onToggleAutoPlay={vis.toggleAutoPlay}
-          stepTitle={current.title}
-          stepDescription={current.desc}
+          stepTitle={lt(current.title)}
+          stepDescription={lt(current.desc)}
         />
       </div>
     </section>

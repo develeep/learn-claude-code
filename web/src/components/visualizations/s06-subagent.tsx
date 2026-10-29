@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useSteppedVisualization } from "@/hooks/useSteppedVisualization";
 import { StepControls } from "@/components/visualizations/shared/step-controls";
+import { useLocalText } from "@/lib/i18n";
 
 interface MessageBlock {
   id: string;
@@ -76,6 +77,7 @@ export default function SubagentIsolation({ title }: { title?: string }) {
     isPlaying,
     toggleAutoPlay,
   } = useSteppedVisualization({ totalSteps: STEPS.length, autoPlayInterval: 2500 });
+  const lt = useLocalText();
 
   // Derive what to show in each container based on step
   const parentMessages: MessageBlock[] = (() => {
@@ -104,7 +106,7 @@ export default function SubagentIsolation({ title }: { title?: string }) {
   return (
     <section className="space-y-4">
       <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
-        {title || "Subagent Context Isolation"}
+        {title || lt("Subagent Context Isolation")}
       </h2>
 
       <div className="rounded-lg border border-zinc-200 bg-white p-6 dark:border-zinc-700 dark:bg-zinc-900"
@@ -117,7 +119,7 @@ export default function SubagentIsolation({ title }: { title?: string }) {
             <div className="mb-3 flex items-center gap-2">
               <div className="h-3 w-3 rounded-full bg-blue-500" />
               <span className="text-sm font-bold text-blue-700 dark:text-blue-300">
-                Parent agent loop
+                {lt("Parent agent loop")}
               </span>
             </div>
             <div className="mb-2 font-mono text-xs text-zinc-400">
@@ -134,7 +136,7 @@ export default function SubagentIsolation({ title }: { title?: string }) {
                     transition={{ duration: 0.4, delay: msg.id === "summary" ? 0.3 : 0 }}
                     className={`rounded-lg px-3 py-2 text-xs font-medium text-white shadow-sm ${msg.color}`}
                   >
-                    {msg.label}
+                    {lt(msg.label)}
                   </motion.div>
                 ))}
               </AnimatePresence>
@@ -146,7 +148,7 @@ export default function SubagentIsolation({ title }: { title?: string }) {
                 transition={{ delay: 0.5 }}
                 className="mt-3 rounded border border-blue-200 bg-white/60 px-2 py-1 text-center text-xs text-blue-600 dark:border-blue-700 dark:bg-blue-950/30 dark:text-blue-300"
               >
-                parent receives one task result
+                {lt("parent receives one task result")}
               </motion.div>
             )}
           </div>
@@ -161,7 +163,7 @@ export default function SubagentIsolation({ title }: { title?: string }) {
               className="rounded bg-zinc-200 px-2 py-1 text-center font-mono text-[10px] text-zinc-500 dark:bg-zinc-700 dark:text-zinc-400"
               style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}
             >
-              MESSAGE BOUNDARY
+              {lt("MESSAGE BOUNDARY")}
             </motion.div>
             <div className="h-full w-px border-l-2 border-dashed border-zinc-300 dark:border-zinc-600" />
           </div>
@@ -195,11 +197,11 @@ export default function SubagentIsolation({ title }: { title?: string }) {
                       : "text-purple-700 dark:text-purple-300"
                 }`}
               >
-                Subagent loop
+                {lt("Subagent loop")}
               </span>
             </div>
             <div className="mb-2 font-mono text-xs text-zinc-400">
-              messages[] (fresh)
+              messages[] {lt("(fresh)")}
             </div>
 
             {showChildEmpty && (
@@ -209,7 +211,7 @@ export default function SubagentIsolation({ title }: { title?: string }) {
                 className="flex h-24 items-center justify-center rounded-lg border border-dashed border-zinc-200 dark:border-zinc-700"
               >
                 <span className="text-xs text-zinc-400">
-                  not yet started
+                  {lt("not yet started")}
                 </span>
               </motion.div>
             )}
@@ -225,7 +227,7 @@ export default function SubagentIsolation({ title }: { title?: string }) {
                     transition={{ duration: 0.4 }}
                     className={`rounded-lg px-3 py-2 text-xs font-medium text-white shadow-sm ${msg.color}`}
                   >
-                    {msg.label}
+                    {lt(msg.label)}
                   </motion.div>
                 ))}
               </AnimatePresence>
@@ -237,7 +239,7 @@ export default function SubagentIsolation({ title }: { title?: string }) {
                 animate={{ opacity: 1, scale: 1 }}
                 className="mt-3 rounded border border-amber-300 bg-amber-50 px-2 py-1 text-center text-xs text-amber-700 dark:border-amber-600 dark:bg-amber-900/20 dark:text-amber-300"
               >
-                Preparing final response...
+                {lt("Preparing final response...")}
               </motion.div>
             )}
 
@@ -247,7 +249,7 @@ export default function SubagentIsolation({ title }: { title?: string }) {
                 animate={{ opacity: 1 }}
                 className="mt-3 rounded border border-red-200 bg-red-50 px-2 py-1 text-center text-xs text-red-500 dark:border-red-800 dark:bg-red-900/20 dark:text-red-400"
               >
-                local messages released
+                {lt("local messages released")}
               </motion.div>
             )}
           </div>
@@ -264,7 +266,7 @@ export default function SubagentIsolation({ title }: { title?: string }) {
                 style={{ zIndex: 10 }}
               >
                 <div className="rounded-lg bg-purple-500 px-3 py-1.5 text-xs font-medium text-white shadow-lg">
-                  task prompt
+                  {lt("task prompt")}
                 </div>
               </motion.div>
             )}
@@ -281,7 +283,7 @@ export default function SubagentIsolation({ title }: { title?: string }) {
                 style={{ zIndex: 10 }}
               >
                 <div className="rounded-lg bg-teal-500 px-3 py-1.5 text-xs font-medium text-white shadow-lg">
-                  summary
+                  {lt("summary")}
                 </div>
               </motion.div>
             )}
@@ -298,8 +300,8 @@ export default function SubagentIsolation({ title }: { title?: string }) {
             onReset={reset}
             isPlaying={isPlaying}
             onToggleAutoPlay={toggleAutoPlay}
-            stepTitle={STEPS[currentStep].title}
-            stepDescription={STEPS[currentStep].description}
+            stepTitle={lt(STEPS[currentStep].title)}
+            stepDescription={lt(STEPS[currentStep].description)}
           />
         </div>
       </div>

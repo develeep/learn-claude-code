@@ -89,7 +89,7 @@ export default function LayersPage() {
                               <LayerBadge layer={layer.id}>{layer.id}</LayerBadge>
                             </div>
                             <h3 className="mt-1 font-semibold text-zinc-900 dark:text-zinc-100">
-                              {meta?.title || id}
+                              {meta ? lt(meta.title) : id}
                             </h3>
                             {meta?.subtitle && (
                               <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">

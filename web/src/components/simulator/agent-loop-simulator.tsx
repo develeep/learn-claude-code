@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import { useTranslations } from "@/lib/i18n";
+import { useTranslations, useLocalText } from "@/lib/i18n";
 import { useSimulator } from "@/hooks/useSimulator";
 import { SimulatorControls } from "./simulator-controls";
 import { SimulatorMessage } from "./simulator-message";
@@ -34,6 +34,7 @@ interface AgentLoopSimulatorProps {
 
 export function AgentLoopSimulator({ version }: AgentLoopSimulatorProps) {
   const t = useTranslations("version");
+  const lt = useLocalText();
   const [scenario, setScenario] = useState<Scenario | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -77,7 +78,7 @@ export function AgentLoopSimulator({ version }: AgentLoopSimulatorProps) {
       <section>
         <h2 className="mb-2 text-xl font-semibold">{t("simulator")}</h2>
         <div className="rounded-xl border border-dashed border-[var(--color-border)] bg-[var(--color-bg)] p-6 text-sm text-[var(--color-text-secondary)]">
-          Simulator scenario is not available for this lesson yet.
+          {lt("Simulator scenario is not available for this lesson yet.")}
         </div>
       </section>
     );
@@ -87,7 +88,7 @@ export function AgentLoopSimulator({ version }: AgentLoopSimulatorProps) {
     <section>
       <h2 className="mb-2 text-xl font-semibold">{t("simulator")}</h2>
       <p className="mb-4 text-sm text-[var(--color-text-secondary)]">
-        {scenario.description}
+        {lt(scenario.description)}
       </p>
 
       <div className="overflow-hidden rounded-xl border border-[var(--color-border)]">
@@ -112,7 +113,7 @@ export function AgentLoopSimulator({ version }: AgentLoopSimulatorProps) {
         >
           {sim.visibleSteps.length === 0 && (
             <div className="flex flex-1 items-center justify-center text-sm text-[var(--color-text-secondary)]">
-              Press Play or Step to begin
+              {lt("Press Play or Step to begin")}
             </div>
           )}
           <AnimatePresence mode="popLayout">

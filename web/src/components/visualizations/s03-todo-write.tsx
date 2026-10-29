@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useSteppedVisualization } from "@/hooks/useSteppedVisualization";
 import { StepControls } from "@/components/visualizations/shared/step-controls";
+import { useLocalText } from "@/lib/i18n";
 
 // -- Task definitions --
 
@@ -98,12 +99,13 @@ function KanbanColumn({
   accentClass: string;
   headerBg: string;
 }) {
+  const lt = useLocalText();
   return (
     <div className="min-w-0 flex min-h-[220px] flex-col rounded-lg border border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 sm:min-h-[280px]">
       <div
         className={`flex items-center justify-center gap-1 rounded-t-lg px-3 py-2 text-center text-xs font-bold uppercase tracking-wider ${headerBg}`}
       >
-        <span className="min-w-0 break-words">{title}</span>
+        <span className="min-w-0 break-words">{lt(title)}</span>
         <span className={`inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold ${accentClass}`}>
           {tasks.length}
         </span>
@@ -127,6 +129,7 @@ function KanbanColumn({
 // -- Task card --
 
 function TaskCard({ task }: { task: Task }) {
+  const lt = useLocalText();
   const statusStyles: Record<TaskStatus, string> = {
     pending: "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400",
     in_progress: "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300",
@@ -156,11 +159,11 @@ function TaskCard({ task }: { task: Task }) {
         <span
           className={`shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide ${statusStyles[task.status]}`}
         >
-          {task.status.replace("_", " ")}
+          {lt(task.status.replace("_", " "))}
         </span>
       </div>
       <div className="break-words text-xs font-medium leading-snug text-zinc-700 dark:text-zinc-300">
-        {task.label}
+        {lt(task.label)}
       </div>
     </motion.div>
   );
@@ -169,6 +172,7 @@ function TaskCard({ task }: { task: Task }) {
 // -- Nag gauge --
 
 function NagGauge({ value, max, firing }: { value: number; max: number; firing: boolean }) {
+  const lt = useLocalText();
   const pct = Math.min((value / max) * 100, 100);
 
   const barColor =
@@ -184,7 +188,7 @@ function NagGauge({ value, max, firing }: { value: number; max: number; firing: 
     <div className="space-y-1">
       <div className="flex items-center justify-between">
         <span className="text-xs font-medium text-zinc-600 dark:text-zinc-300">
-          Nag Timer
+          {lt("Nag Timer")}
         </span>
         <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">
           {value}/{max}
@@ -228,6 +232,7 @@ export default function TodoWrite({ title }: { title?: string }) {
     isPlaying,
     toggleAutoPlay,
   } = useSteppedVisualization({ totalSteps: 7, autoPlayInterval: 2500 });
+  const lt = useLocalText();
 
   const tasks = TASK_STATES[currentStep];
   const nagValue = NAG_TIMER_PER_STEP[currentStep];
@@ -241,7 +246,7 @@ export default function TodoWrite({ title }: { title?: string }) {
   return (
     <section className="min-h-[500px] space-y-4">
       <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
-        {title || "TodoWrite Nag System"}
+        {title || lt("TodoWrite Nag System")}
       </h2>
 
       <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-900">
@@ -257,7 +262,7 @@ export default function TodoWrite({ title }: { title?: string }) {
                 exit={{ opacity: 0, y: -8, height: 0 }}
                 className="rounded-md border border-red-300 bg-red-50 px-3 py-2 text-center text-xs font-bold text-red-700 dark:border-red-700 dark:bg-red-950/30 dark:text-red-300"
               >
-                SYSTEM: "You have pending tasks. Pick one up now!"
+                {lt("SYSTEM")}: &quot;{lt("You have pending tasks. Pick one up now!")}&quot;
               </motion.div>
             )}
           </AnimatePresence>
@@ -288,7 +293,7 @@ export default function TodoWrite({ title }: { title?: string }) {
         {/* Progress summary */}
         <div className="mt-3 flex items-center justify-between rounded-md bg-zinc-100 px-3 py-2 dark:bg-zinc-800">
           <span className="font-mono text-[11px] text-zinc-500 dark:text-zinc-400">
-            Progress: {doneTasks.length}/{tasks.length} complete
+            {lt("Progress:")} {doneTasks.length}/{tasks.length} {lt("complete")}
           </span>
           <div className="flex gap-0.5">
             {tasks.map((t) => (
@@ -315,8 +320,8 @@ export default function TodoWrite({ title }: { title?: string }) {
         onReset={reset}
         isPlaying={isPlaying}
         onToggleAutoPlay={toggleAutoPlay}
-        stepTitle={stepInfo.title}
-        stepDescription={stepInfo.desc}
+        stepTitle={lt(stepInfo.title)}
+        stepDescription={lt(stepInfo.desc)}
       />
     </section>
   );

@@ -5,6 +5,7 @@ import { useSteppedVisualization } from "@/hooks/useSteppedVisualization";
 import { useSvgPalette } from "@/hooks/useDarkMode";
 import { StepControls } from "./step-controls";
 import { cn } from "@/lib/utils";
+import { useLocalText } from "@/lib/i18n";
 
 type NodeKind = "start" | "process" | "decision" | "store" | "external" | "end";
 
@@ -104,9 +105,10 @@ function FlowNode({
   active: boolean;
   visible: boolean;
 }) {
+  const lt = useLocalText();
   const kind = node.kind ?? "process";
   const color = KIND_COLORS[kind];
-  const lines = node.label.split("\n");
+  const lines = lt(node.label).split("\n").map((line) => lt(line));
 
   if (kind === "decision") {
     const half = DIAMOND_SIZE / 2;
@@ -190,15 +192,17 @@ export function MechanismFlow({
   const step = steps[vis.currentStep];
   const palette = useSvgPalette();
   const focused = new Set(step.focus ?? []);
+  const lt = useLocalText();
+  const heading = lt(title || fallbackTitle);
 
   return (
     <section className="min-h-[500px] space-y-4">
       <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
-        {title || fallbackTitle}
+        {heading}
       </h2>
 
       <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-900">
-        <svg viewBox={viewBox} className="w-full" aria-label={title || fallbackTitle}>
+        <svg viewBox={viewBox} className="w-full" aria-label={heading}>
           <defs>
             <marker
               id={`mechanism-arrow-${fallbackTitle.replace(/\W/g, "-")}`}
@@ -247,7 +251,7 @@ export function MechanismFlow({
                     strokeWidth={4}
                     paintOrder="stroke"
                   >
-                    {edge.label}
+                    {lt(edge.label)}
                   </text>
                 )}
               </motion.g>
@@ -278,7 +282,7 @@ export function MechanismFlow({
                   "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
                 )}
               >
-                {item}
+                {lt(item)}
               </span>
             ))}
           </div>
@@ -293,8 +297,8 @@ export function MechanismFlow({
         onReset={vis.reset}
         isPlaying={vis.isPlaying}
         onToggleAutoPlay={vis.toggleAutoPlay}
-        stepTitle={step.title}
-        stepDescription={step.description}
+        stepTitle={lt(step.title)}
+        stepDescription={lt(step.description)}
       />
     </section>
   );

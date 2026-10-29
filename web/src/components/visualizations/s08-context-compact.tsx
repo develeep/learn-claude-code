@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSteppedVisualization } from "@/hooks/useSteppedVisualization";
 import { StepControls } from "@/components/visualizations/shared/step-controls";
+import { useLocalText } from "@/lib/i18n";
 
 type BlockType = "user" | "assistant" | "tool_result";
 
@@ -234,6 +235,7 @@ export default function ContextCompact({ title }: { title?: string }) {
     toggleAutoPlay,
   } = useSteppedVisualization({ totalSteps: STEPS.length, autoPlayInterval: 2500 });
 
+  const lt = useLocalText();
   const state = useMemo(() => computeStepState(currentStep), [currentStep]);
 
   const fillColor =
@@ -248,7 +250,7 @@ export default function ContextCompact({ title }: { title?: string }) {
   return (
     <section className="space-y-4">
       <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
-        {title || "Three-Layer Context Compression"}
+        {title || lt("Three-Layer Context Compression")}
       </h2>
 
       <div
@@ -259,7 +261,7 @@ export default function ContextCompact({ title }: { title?: string }) {
           {/* Token Window (tall vertical bar on the left) */}
           <div className="min-w-0 flex flex-col items-center">
             <div className="mb-2 font-mono text-[10px] font-semibold text-zinc-500 dark:text-zinc-400">
-              Context Window
+              {lt("Context Window")}
             </div>
             <div
               className="relative w-20 max-w-full overflow-hidden rounded-xl border-2 border-zinc-300 bg-zinc-50 dark:border-zinc-600 dark:bg-zinc-800 sm:w-24"
@@ -288,7 +290,7 @@ export default function ContextCompact({ title }: { title?: string }) {
                     >
                       {block.heightPx >= 14 && (
                         <span className="truncate px-1 text-[8px] font-medium text-white">
-                          {block.label}
+                          {lt(block.label)}
                         </span>
                       )}
                     </motion.div>
@@ -328,7 +330,7 @@ export default function ContextCompact({ title }: { title?: string }) {
             <div>
               <div className="mb-1 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
                 <span className="text-xs text-zinc-500 dark:text-zinc-400">
-                  Token usage
+                  {lt("Token usage")}
                 </span>
                 <span className="break-words font-mono text-xs text-zinc-500 dark:text-zinc-400">
                   {state.tokenCount.toLocaleString()} / {MAX_TOKENS.toLocaleString()}
@@ -376,14 +378,14 @@ export default function ContextCompact({ title }: { title?: string }) {
                     }`}
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-sm font-semibold">{layer.label}</span>
+                      <span className="text-sm font-semibold">{lt(layer.label)}</span>
                       <span className="rounded bg-white/70 px-1.5 py-0.5 font-mono text-[10px] dark:bg-zinc-900/60">
-                        {reached ? "used" : "waiting"}
+                        {reached ? lt("used") : lt("waiting")}
                       </span>
                     </div>
                     <div className="mt-2 space-y-1 text-[11px] leading-snug">
-                      <div className="break-words font-mono">{layer.trigger}</div>
-                      <div className="break-words opacity-80">{layer.action}</div>
+                      <div className="break-words font-mono">{lt(layer.trigger)}</div>
+                      <div className="break-words opacity-80">{lt(layer.action)}</div>
                     </div>
                   </motion.div>
                 );
@@ -400,10 +402,10 @@ export default function ContextCompact({ title }: { title?: string }) {
                   className="mt-3 rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 dark:border-amber-700 dark:bg-amber-900/20"
                 >
                   <div className="text-xs font-semibold text-amber-700 dark:text-amber-300">
-                    tool_results are the largest blocks
+                    {lt("tool_results are the largest blocks")}
                   </div>
                   <div className="text-[11px] leading-snug text-amber-600 dark:text-amber-400">
-                    File contents, command outputs, search results -- each one is thousands of tokens.
+                    {lt("File contents, command outputs, search results -- each one is thousands of tokens.")}
                   </div>
                 </motion.div>
               )}
@@ -433,7 +435,7 @@ export default function ContextCompact({ title }: { title?: string }) {
                           ? "text-blue-600 dark:text-blue-300"
                           : "text-emerald-600 dark:text-emerald-300"
                     }`}>
-                      {state.compressionLabel}
+                      {lt(state.compressionLabel)}
                     </div>
                     <div className={`mt-1 text-xs leading-snug ${
                       currentStep === 3
@@ -442,9 +444,9 @@ export default function ContextCompact({ title }: { title?: string }) {
                           ? "text-blue-500 dark:text-blue-400"
                           : "text-emerald-500 dark:text-emerald-400"
                     }`}>
-                      {currentStep === 3 && "Old tool_results shrunk to tiny summaries"}
-                      {currentStep === 5 && "Full conversation compressed to summary block"}
-                      {currentStep === 6 && "Most aggressive compression -- near-empty context"}
+                      {currentStep === 3 && lt("Old tool_results shrunk to tiny summaries")}
+                      {currentStep === 5 && lt("Full conversation compressed to summary block")}
+                      {currentStep === 6 && lt("Most aggressive compression -- near-empty context")}
                     </div>
                   </div>
                 </motion.div>
@@ -465,10 +467,10 @@ export default function ContextCompact({ title }: { title?: string }) {
                     className={`flex flex-col gap-1 rounded px-3 py-2 sm:flex-row sm:items-center sm:justify-between ${layer.classes}`}
                   >
                     <span className="break-words text-xs">
-                      Stage {index + 1}: {layer.label} -- {layer.action}
+                      {lt("Stage")} {index + 1}: {lt(layer.label)} -- {lt(layer.action)}
                     </span>
                     <span className="shrink-0 font-mono text-[10px] opacity-80">
-                      {layer.trigger}
+                      {lt(layer.trigger)}
                     </span>
                   </div>
                 ))}
@@ -487,8 +489,8 @@ export default function ContextCompact({ title }: { title?: string }) {
             onReset={reset}
             isPlaying={isPlaying}
             onToggleAutoPlay={toggleAutoPlay}
-            stepTitle={STEPS[currentStep].title}
-            stepDescription={STEPS[currentStep].description}
+            stepTitle={lt(STEPS[currentStep].title)}
+            stepDescription={lt(STEPS[currentStep].description)}
           />
         </div>
       </div>

@@ -5,6 +5,7 @@ import { Bot, CalendarDays, CheckCircle2, Clock3, Database, Inbox } from "lucide
 import { StepControls } from "@/components/visualizations/shared/step-controls";
 import { useSteppedVisualization } from "@/hooks/useSteppedVisualization";
 import { cn } from "@/lib/utils";
+import { useLocalText } from "@/lib/i18n";
 
 const STEPS = [
   {
@@ -114,11 +115,12 @@ export default function CronSchedulerVisualization({ title }: { title?: string }
   const vis = useSteppedVisualization({ totalSteps: STEPS.length, autoPlayInterval: 2500 });
   const step = vis.currentStep;
   const current = STEPS[step];
+  const lt = useLocalText();
 
   return (
     <section className="min-h-[500px] space-y-4">
       <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
-        {title || "Cron Scheduler"}
+        {title || lt("Cron Scheduler")}
       </h2>
 
       <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-900">
@@ -126,7 +128,7 @@ export default function CronSchedulerVisualization({ title }: { title?: string }
           <div className="mb-3 flex items-center justify-between gap-3">
             <div className="flex items-center gap-2 text-sm font-semibold text-zinc-800 dark:text-zinc-100">
               <CalendarDays size={16} />
-              Weekly clock
+              {lt("Weekly clock")}
             </div>
             <motion.div
               animate={step >= 2 ? { scale: [1, 1.08, 1] } : { scale: 1 }}
@@ -147,7 +149,7 @@ export default function CronSchedulerVisualization({ title }: { title?: string }
                     : "border-zinc-200 bg-white text-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-400"
                 )}
               >
-                {day}
+                {lt(day)}
               </div>
             ))}
           </div>
@@ -155,60 +157,60 @@ export default function CronSchedulerVisualization({ title }: { title?: string }
 
         <div className="grid gap-3 lg:grid-cols-3">
           <Panel
-            title="Schedule book"
+            title={lt("Schedule book")}
             icon={<Database size={15} />}
             active={current.active === "ledger" || current.active === "done"}
           >
             <div className="space-y-3">
               {step === 0 && (
-                <ScheduleCard title="Draft prompt" subtitle="review open PR every weekday" />
+                <ScheduleCard title={lt("Draft prompt")} subtitle={lt("review open PR every weekday")} />
               )}
               <AnimatePresence>
                 {step >= 1 && (
                   <ScheduleCard
                     title="0 9 * * 1-5"
-                    subtitle="review open PR every weekday"
+                    subtitle={lt("review open PR every weekday")}
                     tone={step === 5 ? "emerald" : "blue"}
                   />
                 )}
               </AnimatePresence>
               <div className="rounded-md border border-dashed border-zinc-300 px-3 py-4 text-center text-xs text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
-                {step >= 1 ? "stored schedules stay here" : "no saved schedule yet"}
+                {lt(step >= 1 ? "stored schedules stay here" : "no saved schedule yet")}
               </div>
             </div>
           </Panel>
 
           <Panel
-            title="Due queue"
+            title={lt("Due queue")}
             icon={<Clock3 size={15} />}
             active={current.active === "clock" || current.active === "queue"}
           >
             <div className="space-y-3">
               <div className="rounded-md border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
-                watcher: {step >= 2 ? "running" : "waiting"}
+                {lt("watcher")}: {lt(step >= 2 ? "running" : "waiting")}
               </div>
               <AnimatePresence>
                 {step >= 3 && step <= 4 && (
                   <ScheduleCard
-                    title="due copy"
-                    subtitle="same prompt, current timestamp"
+                    title={lt("due copy")}
+                    subtitle={lt("same prompt, current timestamp")}
                     tone="amber"
                   />
                 )}
               </AnimatePresence>
               {step < 3 && (
                 <div className="rounded-md border border-dashed border-zinc-300 px-3 py-8 text-center text-xs text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
-                  queue is empty
+                  {lt("queue is empty")}
                 </div>
               )}
               {step === 5 && (
-                <ScheduleCard title="queue drained" subtitle="ready for next tick" tone="emerald" />
+                <ScheduleCard title={lt("queue drained")} subtitle={lt("ready for next tick")} tone="emerald" />
               )}
             </div>
           </Panel>
 
           <Panel
-            title="Agent inbox"
+            title={lt("Agent inbox")}
             icon={<Inbox size={15} />}
             active={current.active === "inbox" || current.active === "done"}
           >
@@ -216,15 +218,15 @@ export default function CronSchedulerVisualization({ title }: { title?: string }
               <AnimatePresence>
                 {step >= 4 && (
                   <ScheduleCard
-                    title="agent turn"
-                    subtitle={step >= 5 ? "result appended" : "runs like a normal prompt"}
+                    title={lt("agent turn")}
+                    subtitle={lt(step >= 5 ? "result appended" : "runs like a normal prompt")}
                     tone={step >= 5 ? "emerald" : "blue"}
                   />
                 )}
               </AnimatePresence>
               <div className="flex items-center gap-2 rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs text-zinc-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
                 {step >= 5 ? <CheckCircle2 size={14} /> : <Bot size={14} />}
-                {step >= 5 ? "review summary saved" : "agent loop available"}
+                {lt(step >= 5 ? "review summary saved" : "agent loop available")}
               </div>
             </div>
           </Panel>
@@ -239,8 +241,8 @@ export default function CronSchedulerVisualization({ title }: { title?: string }
           onReset={vis.reset}
           isPlaying={vis.isPlaying}
           onToggleAutoPlay={vis.toggleAutoPlay}
-          stepTitle={current.title}
-          stepDescription={current.desc}
+          stepTitle={lt(current.title)}
+          stepDescription={lt(current.desc)}
         />
       </div>
     </section>

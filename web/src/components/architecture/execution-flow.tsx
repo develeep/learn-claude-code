@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { getFlowForVersion } from "@/data/execution-flows";
 import type { FlowNode, FlowEdge } from "@/types/agent-data";
+import { useLocalText } from "@/lib/i18n";
 
 const NODE_WIDTH = 140;
 const NODE_HEIGHT = 44;
@@ -43,7 +44,12 @@ function getNodeLines(node: FlowNode): string[] {
 }
 
 function estimateTextWidth(line: string, fontSize: number): number {
-  return line.length * fontSize * 0.62;
+  let units = 0;
+  for (const ch of line) {
+    // Hangul / CJK glyphs render roughly twice as wide as monospace Latin.
+    units += /[\u1100-\u11ff\u3000-\u9fff\uac00-\ud7af\uff00-\uffef]/.test(ch) ? 1.6 : 1;
+  }
+  return units * fontSize * 0.62;
 }
 
 function getNodeMetrics(node: FlowNode) {
@@ -314,6 +320,7 @@ function EdgePath({
   nodes: FlowNode[];
   index: number;
 }) {
+  const lt = useLocalText();
   const from = nodes.find((n) => n.id === edge.from);
   const to = nodes.find((n) => n.id === edge.to);
   if (!from || !to) return null;
@@ -352,7 +359,7 @@ function EdgePath({
           animate={{ opacity: 1 }}
           transition={{ delay: index * 0.12 + 0.3 }}
         >
-          {edge.label}
+          {lt(edge.label)}
         </motion.text>
       )}
     </g>
@@ -365,6 +372,7 @@ interface ExecutionFlowProps {
 
 export function ExecutionFlow({ version }: ExecutionFlowProps) {
   const [flow, setFlow] = useState<ReturnType<typeof getFlowForVersion>>(null);
+  const lt = useLocalText();
 
   useEffect(() => {
     setFlow(getFlowForVersion(version));
@@ -373,12 +381,17 @@ export function ExecutionFlow({ version }: ExecutionFlowProps) {
   if (!flow) {
     return (
       <div className="rounded-xl border border-dashed border-[var(--color-border)] bg-[var(--color-bg)] p-6 text-sm text-[var(--color-text-secondary)]">
-        Execution flow is not available for this lesson yet.
+        {lt("Execution flow is not available for this lesson yet.")}
       </div>
     );
   }
 
-  const bounds = flow.nodes.map(getNodeBounds);
+  // Localize node labels up front so node sizing follows the displayed text.
+  const nodes = flow.nodes.map((node) => ({
+    ...node,
+    label: lt(node.label).split("\n").map((line) => lt(line)).join("\n"),
+  }));
+  const bounds = nodes.map(getNodeBounds);
   const minX = Math.min(-40, ...bounds.map((b) => b.left)) - 24;
   const maxX = Math.max(700, ...bounds.map((b) => b.right)) + 24;
   const maxY = Math.max(...bounds.map((b) => b.bottom)) + 50;
@@ -407,14 +420,14 @@ export function ExecutionFlow({ version }: ExecutionFlowProps) {
         </defs>
 
         {flow.edges.map((edge, i) => (
-          <EdgePath key={`${edge.from}-${edge.to}-${i}`} edge={edge} nodes={flow.nodes} index={i} />
+          <EdgePath key={`${edge.from}-${edge.to}-${i}`} edge={edge} nodes={nodes} index={i} />
         ))}
 
-        {flow.nodes.map((node, i) => (
+        {nodes.map((node, i) => (
           <motion.g
             key={node.id}
             data-node-id={node.id}
-            data-node-label={node.label}
+            data-node-label={flow.nodes[i].label}
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.06, duration: 0.3 }}

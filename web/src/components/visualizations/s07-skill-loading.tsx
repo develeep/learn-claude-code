@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useSteppedVisualization } from "@/hooks/useSteppedVisualization";
 import { StepControls } from "@/components/visualizations/shared/step-controls";
+import { useLocalText } from "@/lib/i18n";
 
 interface SkillEntry {
   name: string;
@@ -98,6 +99,7 @@ export default function SkillLoading({ title }: { title?: string }) {
     isPlaying,
     toggleAutoPlay,
   } = useSteppedVisualization({ totalSteps: STEPS.length, autoPlayInterval: 2500 });
+  const lt = useLocalText();
 
   const loadedCount = LOADED_STATES[currentStep];
   const highlightedSkill = currentStep >= 1 && currentStep <= 3 ? 0 : currentStep >= 4 ? 1 : -1;
@@ -108,7 +110,7 @@ export default function SkillLoading({ title }: { title?: string }) {
   return (
     <section className="space-y-4">
       <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
-        {title || "On-Demand Skill Loading"}
+        {title || lt("On-Demand Skill Loading")}
       </h2>
 
       <div
@@ -123,15 +125,15 @@ export default function SkillLoading({ title }: { title?: string }) {
               <div className="mb-2 flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full bg-zinc-400" />
                 <span className="text-xs font-semibold text-zinc-600 dark:text-zinc-300">
-                  System Prompt
+                  {lt("System Prompt")}
                 </span>
                 <span className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-[10px] text-zinc-400 dark:bg-zinc-800">
-                  always present
+                  {lt("always present")}
                 </span>
               </div>
               <div className="rounded-lg border border-zinc-300 bg-zinc-900 p-4 dark:border-zinc-600">
                 <div className="mb-2 font-mono text-[10px] text-zinc-500">
-                  # Available Skills
+                  {lt("# Available Skills")}
                 </div>
                 <div className="space-y-1.5">
                   {SKILLS.map((skill, i) => {
@@ -155,7 +157,7 @@ export default function SkillLoading({ title }: { title?: string }) {
                           {skill.name}
                         </span>
                         {" - "}
-                        {skill.summary}
+                        {lt(skill.summary)}
                       </motion.div>
                     );
                   })}
@@ -173,10 +175,10 @@ export default function SkillLoading({ title }: { title?: string }) {
                   className="flex items-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 dark:border-blue-800 dark:bg-blue-950/30"
                 >
                   <span className="text-xs text-blue-600 dark:text-blue-400">
-                    User asks:
+                    {lt("User asks:")}
                   </span>
                   <code className="rounded bg-blue-100 px-2 py-0.5 text-xs font-bold text-blue-800 dark:bg-blue-900/50 dark:text-blue-200">
-                    Review this change for bugs and regressions.
+                    {lt("Review this change for bugs and regressions.")}
                   </code>
                 </motion.div>
               )}
@@ -188,10 +190,10 @@ export default function SkillLoading({ title }: { title?: string }) {
                   className="flex items-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 dark:border-blue-800 dark:bg-blue-950/30"
                 >
                   <span className="text-xs text-blue-600 dark:text-blue-400">
-                    User asks:
+                    {lt("User asks:")}
                   </span>
                   <code className="rounded bg-blue-100 px-2 py-0.5 text-xs font-bold text-blue-800 dark:bg-blue-900/50 dark:text-blue-200">
-                    Extract the tables from this PDF.
+                    {lt("Extract the tables from this PDF.")}
                   </code>
                 </motion.div>
               )}
@@ -252,7 +254,7 @@ export default function SkillLoading({ title }: { title?: string }) {
                             transition={{ delay: i * 0.08 }}
                             className="font-mono text-xs text-zinc-600 dark:text-zinc-300"
                           >
-                            {line}
+                            {lt(line)}
                           </motion.div>
                         ))}
                       </div>
@@ -291,7 +293,7 @@ export default function SkillLoading({ title }: { title?: string }) {
                             transition={{ delay: i * 0.08 }}
                             className="font-mono text-xs text-zinc-600 dark:text-zinc-300"
                           >
-                            {line}
+                            {lt(line)}
                           </motion.div>
                         ))}
                       </div>
@@ -310,9 +312,9 @@ export default function SkillLoading({ title }: { title?: string }) {
                   exit={{ opacity: 0 }}
                   className="rounded border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700 dark:border-amber-700 dark:bg-amber-900/20 dark:text-amber-300"
                 >
-                  The Skill tool returns content as a tool_result message.
-                  The model sees it in context and follows the instructions.
-                  The full file is now part of the message history.
+                  {lt(
+                    "The Skill tool returns content as a tool_result message. The model sees it in context and follows the instructions. The full file is now part of the message history."
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>
@@ -328,18 +330,18 @@ export default function SkillLoading({ title }: { title?: string }) {
                 >
                   <div className="flex-1 rounded border border-zinc-200 bg-zinc-50 p-2 text-center dark:border-zinc-700 dark:bg-zinc-800">
                     <div className="text-[10px] font-semibold text-zinc-500 dark:text-zinc-400">
-                      CATALOG
+                      {lt("CATALOG")}
                     </div>
                     <div className="text-xs text-zinc-600 dark:text-zinc-300">
-                      Names and descriptions in the system prompt
+                      {lt("Names and descriptions in the system prompt")}
                     </div>
                   </div>
                   <div className="flex-1 rounded border border-blue-200 bg-blue-50 p-2 text-center dark:border-blue-700 dark:bg-blue-900/20">
                     <div className="text-[10px] font-semibold text-blue-500 dark:text-blue-400">
-                      FULL CONTENT
+                      {lt("FULL CONTENT")}
                     </div>
                     <div className="text-xs text-blue-600 dark:text-blue-300">
-                      Selected SKILL.md returned by load_skill
+                      {lt("Selected SKILL.md returned by load_skill")}
                     </div>
                   </div>
                 </motion.div>
@@ -350,7 +352,7 @@ export default function SkillLoading({ title }: { title?: string }) {
           {/* Loaded skill count */}
           <div className="flex w-16 flex-col items-center">
             <div className="mb-1 text-center font-mono text-[10px] text-zinc-400">
-              Loaded
+              {lt("Loaded")}
             </div>
             <div
               className="relative w-8 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800"
@@ -387,8 +389,8 @@ export default function SkillLoading({ title }: { title?: string }) {
             onReset={reset}
             isPlaying={isPlaying}
             onToggleAutoPlay={toggleAutoPlay}
-            stepTitle={STEPS[currentStep].title}
-            stepDescription={STEPS[currentStep].description}
+            stepTitle={lt(STEPS[currentStep].title)}
+            stepDescription={lt(STEPS[currentStep].description)}
           />
         </div>
       </div>
