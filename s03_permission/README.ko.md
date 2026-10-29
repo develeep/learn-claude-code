@@ -19,7 +19,7 @@ s02의 에이전트에는 도구가 5개 있습니다. 파일 도구는 `safe_pa
 
 ## 해결 방법
 
-![Permission Overview](images/permission-overview.en.svg)
+![권한 개요](images/permission-overview.ko.svg)
 
 s02의 루프는 그대로 둡니다. 바뀌는 것은 도구 실행 앞에 `check_permission()`을 넣는 것 하나뿐입니다. 모든 도구 호출은 정해진 순서로 관문 세 개를 지납니다. 먼저 무조건 거부를 확인하고, 다음으로 사용자에게 물어볼지 확인하고, 어느 쪽에도 해당하지 않으면 허용합니다.
 
@@ -37,7 +37,7 @@ s02의 루프는 그대로 둡니다. 바뀌는 것은 도구 실행 앞에 `che
 
 ## 동작 방식
 
-![Permission Pipeline](images/permission-pipeline.en.svg)
+![권한 파이프라인](images/permission-pipeline.ko.svg)
 
 **관문 1**: 무조건 거부하는 목록입니다. 가장 먼저 확인하고, 해당하면 차단 메시지를 돌려줍니다. 이 목록은 권한 관문이 어디에 놓이는지 보여 주려고 단순한 문자열 매칭을 씁니다. 완전한 보안 경계는 아닙니다.
 

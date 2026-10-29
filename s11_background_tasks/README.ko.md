@@ -22,7 +22,7 @@ S11은 느린 Bash 명령을 백그라운드에서 실행해 이 문제를 해�
 
 ## 해결 방법
 
-![Background Tasks Overview](images/background-tasks-overview.en.svg)
+![백그라운드 작업 개요](images/background-tasks-overview.ko.svg)
 
 이 장에서는 느린 작업을 백그라운드 스레드로 보냅니다. 현재 도구 호출은 먼저 자리표시자 `tool_result`를 돌려주므로 에이전트 루프가 계속 진행됩니다. 이후 턴이 시작될 때 완료된 결과를 거둬 알림으로 대화에 추가합니다.
 

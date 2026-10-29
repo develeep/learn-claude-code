@@ -32,7 +32,7 @@ S15는 또 하나의 독립된 메커니즘을 소개하지 않습니다. 기존
 
 ## 해결 방법
 
-![System Architecture](images/system-architecture.en.svg)
+![시스템 아키텍처](images/system-architecture.ko.svg)
 
 S15는 새 메커니즘을 도입하지 않습니다. 앞 장의 구성 요소를 통합 하네스 하나로 연결합니다.
 
