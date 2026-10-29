@@ -35,7 +35,7 @@ and make sure the tests pass.
 
 ## 해결 방법
 
-![Agent Teams Overview](images/agent-teams-overview.en.svg)
+![에이전트 팀 개요](images/agent-teams-overview.ko.svg)
 
 s13은 s10의 기본 도구, 훅, 권한 검사, 작업 시스템을 그대로 쓰고, 그 위에 리더가 관리하는 팀 런타임을 더합니다.
 
@@ -307,7 +307,7 @@ pending/running task → refuse removal
 
 일반 협업에는 자유 형식 텍스트로도 충분하지만, 종료와 승인이 의도를 짐작하는 데 기대서는 안 됩니다. 이 둘은 구조화된 메시지를 씁니다.
 
-![Team Protocols](images/team-protocols-overview.en.svg)
+![팀 프로토콜](images/team-protocols-overview.ko.svg)
 
 ```python
 @dataclass
