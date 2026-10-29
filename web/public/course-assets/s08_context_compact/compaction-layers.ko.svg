@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 590" font-family="system-ui, -apple-system, sans-serif, &quot;Apple SD Gothic Neo&quot;, &quot;Malgun Gothic&quot;, &quot;Noto Sans KR&quot;, sans-serif">
+  <defs>
+    <linearGradient id="header" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1e3a5f"/><stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+    <linearGradient id="pre" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#dbeafe"/><stop offset="100%" stop-color="#bfdbfe"/>
+    </linearGradient>
+    <linearGradient id="auto" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fecaca"/><stop offset="100%" stop-color="#fca5a5"/>
+    </linearGradient>
+    <linearGradient id="emergency" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fed7aa"/><stop offset="100%" stop-color="#fdba74"/>
+    </linearGradient>
+    <marker id="arrow-d" viewBox="0 0 10 10" refX="5" refY="10" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 5 10 L 10 0 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <rect width="760" height="590" fill="#fafbfc" rx="8"/>
+
+  <!-- Title bar -->
+  <rect x="0" y="0" width="760" height="44" fill="url(#header)" rx="8"/>
+  <rect x="0" y="36" width="760" height="8" fill="url(#header)"/>
+  <text x="380" y="28" fill="#fff" font-size="15" font-weight="700" text-anchor="middle">컨텍스트 압축: 네 단계와 API 오류 복구</text>
+
+  <!-- Design principles (left) -->
+  <rect x="20" y="62" width="220" height="80" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="130" y="82" fill="#1e3a5f" font-size="12" font-weight="700" text-anchor="middle">설계 원칙</text>
+  <text x="130" y="100" fill="#475569" font-size="10" text-anchor="middle">비용이 낮은 작업부터 실행</text>
+  <text x="130" y="116" fill="#475569" font-size="10" text-anchor="middle">복구 가능한 정보 보존</text>
+  <text x="130" y="132" fill="#475569" font-size="10" text-anchor="middle">한도를 넘을 때만 요약</text>
+
+  <!-- Cost escalation (right) -->
+  <rect x="530" y="62" width="210" height="80" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="635" y="82" fill="#1e3a5f" font-size="12" font-weight="700" text-anchor="middle">비용 증가 순</text>
+  <text x="635" y="104" fill="#475569" font-size="10" text-anchor="middle">구조 → 요약 → 복구</text>
+  <text x="635" y="124" fill="#94a3b8" font-size="9" text-anchor="middle">0 API × 3 · 1 API · 최대 1회 추가</text>
+
+  <!-- ===== Pre-processing pipeline title ===== -->
+  <rect x="20" y="146" width="720" height="24" rx="4" fill="#f1f5f9"/>
+  <text x="55" y="163" fill="#64748b" font-size="11" font-weight="600">전처리 (1 → 2단계는 매 라운드, 3단계는 한도 초과 시에만, 0 API)</text>
+
+  <!-- Step 1: tool_result_budget -->
+  <rect x="80" y="180" width="600" height="46" rx="7" fill="url(#pre)" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="100" y="200" fill="#1e40af" font-size="12" font-weight="600">1단계</text>
+  <text x="155" y="200" fill="#1e40af" font-size="13" font-weight="700">tool_result_budget</text>
+  <text x="315" y="200" fill="#1e40af" font-size="11">합계 &gt; 200,000자 → 가장 큰 것부터 저장</text>
+  <text x="650" y="200" fill="#1e40af" font-size="10" text-anchor="end">전체 내용 보존</text>
+  <text x="155" y="218" fill="#2563eb" font-size="9">micro_compact가 내용을 바꾸기 전에 매 라운드 실행</text>
+
+  <!-- Step 1 to Step 2 -->
+  <line x1="380" y1="226" x2="380" y2="238" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow-d)"/>
+
+  <!-- Step 2: snip_compact -->
+  <rect x="80" y="240" width="600" height="46" rx="7" fill="url(#pre)" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="100" y="260" fill="#1e40af" font-size="12" font-weight="600">2단계</text>
+  <text x="155" y="260" fill="#1e40af" font-size="13" font-weight="700">snip_compact</text>
+  <text x="260" y="260" fill="#1e40af" font-size="11">메시지 ≥ 50 → 목표 30</text>
+  <text x="650" y="260" fill="#1e40af" font-size="10" text-anchor="end">앞/뒤 유지</text>
+  <text x="155" y="278" fill="#2563eb" font-size="9">새 메시지 자리를 남김. 도구 쌍 때문에 목표를 넘을 수 있음</text>
+
+  <!-- Step 2 to Step 3 -->
+  <line x1="380" y1="286" x2="380" y2="298" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow-d)"/>
+
+  <!-- Step 3: micro_compact -->
+  <rect x="80" y="300" width="600" height="46" rx="7" fill="url(#pre)" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="100" y="320" fill="#1e40af" font-size="12" font-weight="600">3단계</text>
+  <text x="155" y="320" fill="#1e40af" font-size="13" font-weight="700">micro_compact</text>
+  <text x="260" y="320" fill="#1e40af" font-size="11">오래된 tool_result → 복구 경로 (최근 3개 유지)</text>
+  <text x="650" y="320" fill="#1e40af" font-size="10" text-anchor="end">오래된 결과 축약</text>
+  <text x="155" y="338" fill="#2563eb" font-size="9">한도 초과 시 실행. 오래된 결과를 저장하고 한도의 80%를 목표로 함</text>
+
+  <!-- ===== Auto-compact title ===== -->
+  <rect x="20" y="358" width="720" height="24" rx="4" fill="#f1f5f9"/>
+  <text x="70" y="375" fill="#64748b" font-size="11" font-weight="600">자동 압축 판단 (3단계 후에도 초과하면 실행, API 호출 1회)</text>
+
+  <!-- Step 4: compact_history -->
+  <rect x="80" y="390" width="600" height="58" rx="7" fill="url(#auto)" stroke="#dc2626" stroke-width="2"/>
+  <text x="100" y="412" fill="#991b1b" font-size="12" font-weight="600">4단계</text>
+  <text x="155" y="412" fill="#991b1b" font-size="13" font-weight="700">compact_history</text>
+  <text x="305" y="412" fill="#991b1b" font-size="11">크기 50,000 초과 → LLM 요약</text>
+  <text x="650" y="412" fill="#991b1b" font-size="10" text-anchor="end">API 호출 1회</text>
+  <text x="155" y="428" fill="#dc2626" font-size="9">조건: estimate_chars(messages) &gt; CONTEXT_CHAR_LIMIT</text>
+  <text x="155" y="442" fill="#dc2626" font-size="9">transcript를 저장한 뒤 현재 기록을 요약 하나로 교체</text>
+
+  <!-- ===== Emergency fallback title ===== -->
+  <rect x="20" y="460" width="720" height="24" rx="4" fill="#f1f5f9"/>
+  <text x="55" y="477" fill="#64748b" font-size="11" font-weight="600">오류 복구 (API가 prompt_too_long을 반환할 때, 최대 1회)</text>
+
+  <!-- Fallback: reactive_compact -->
+  <rect x="80" y="492" width="600" height="62" rx="7" fill="url(#emergency)" stroke="#c2410c" stroke-width="1.5"/>
+  <text x="100" y="512" fill="#9a3412" font-size="12" font-weight="600">재시도</text>
+  <text x="155" y="512" fill="#9a3412" font-size="13" font-weight="700">reactive_compact</text>
+  <text x="155" y="528" fill="#9a3412" font-size="10">오래된 기록을 요약하고 최근 메시지 5개 유지</text>
+  <text x="155" y="544" fill="#c2410c" font-size="9">도구 쌍을 보존한 뒤 1회 재시도</text>
+
+</svg>

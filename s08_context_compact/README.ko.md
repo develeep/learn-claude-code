@@ -13,7 +13,7 @@ s01 → s02 → s03 → s04 → s05 → s06 → s07 → `s08` → [s09](../s09_m
 
 이 장에서는 네 단계로 된 압축 파이프라인을 추가합니다. 먼저 다시 복구할 수 있는 도구 출력을 줄이고, 그것만으로 부족할 때만 기록을 요약합니다.
 
-![Context Compact overview](images/compact-overview.en.svg)
+![컨텍스트 압축 개요](images/compact-overview.ko.svg)
 
 
 ## 컨텍스트 이해하기
@@ -42,7 +42,7 @@ s01 → s02 → s03 → s04 → s05 → s06 → s07 → `s08` → [s09](../s09_m
 
 그래서 파이프라인은 정보 손실과 비용이 커지는 순서를 따릅니다. 저장하고, 잘라 내고, 오래된 결과를 바꾸고, 마지막에 요약합니다.
 
-![Four-step compaction pipeline](images/compaction-layers.en.svg)
+![네 단계 압축 파이프라인](images/compaction-layers.ko.svg)
 
 
 ## 1단계: tool_result_budget
@@ -57,7 +57,7 @@ s01 → s02 → s03 → s04 → s05 → s06 → s07 → `s08` → [s09](../s09_m
 
 컨텍스트에는 파일 경로와 2,000자 미리보기만 남습니다.
 
-![Persisting large results](images/layer1-budget.en.svg)
+![큰 결과 저장](images/layer1-budget.ko.svg)
 
 핵심 루프는 크기가 큰 순서대로 결과를 저장합니다.
 
@@ -125,7 +125,7 @@ messages = [*messages[:head_end], marker, *messages[tail_start:]]
 
 앞의 두 단계를 마친 뒤 `prepare`는 남은 컨텍스트 크기를 추정하고, 그 값이 `CONTEXT_CHAR_LIMIT`를 넘을 때만 `micro_compact`를 실행합니다. `micro_compact`는 모델이 이미 읽은 결과 가운데 최근 3개는 그대로 두고, 그보다 오래된 120자 넘는 결과를 컨텍스트가 한도의 80%에 가까워질 때까지 줄입니다. 오래된 결과를 바꾸기 전에 전체 내용을 디스크에 쓰므로, 바뀐 결과마다 복구 경로가 남습니다.
 
-![Replacing old results with recovery paths](images/micro-compact.en.svg)
+![오래된 결과를 복구 경로로 교체](images/micro-compact.ko.svg)
 
 ```python
 unseen = self.unseen_tool_result_positions(messages)
@@ -166,7 +166,7 @@ def estimate_chars(messages):
 3. 입력 경계에서 붙잡아 둔 요청을 요약과 따로 보관합니다.
 4. 현재 기록을 `[Compacted]` 메시지 하나로 바꿉니다.
 
-![History summary](images/auto-compact.en.svg)
+![기록 요약](images/auto-compact.ko.svg)
 
 ```python
 def compact_history(messages, active_request):
