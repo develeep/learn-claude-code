@@ -15,7 +15,7 @@ s01 → ... → s07 → s08 → `s09` → [s10](../s10_task_system/) → s11 →
 
 대화 기록 전체를 보관해 두면 기록 보관소 역할은 합니다. 하지만 요청할 때마다 전부 보내는 방식은 규모가 커지면 버티지 못합니다. 대화는 계속 길어지고, 쓸모 있는 정보는 찾기 어려워지며, 오래된 사실은 더 이상 맞지 않을 수 있습니다. 메모리는 세션을 넘어 남길 가치가 있는 것이 무엇인지, 그리고 지금 작업에 필요한 기록이 무엇인지 정해야 합니다.
 
-![Memory Overview](images/memory-overview.en.svg)
+![메모리 개요](images/memory-overview.ko.svg)
 
 ---
 
@@ -27,7 +27,7 @@ s07에서는 더 나은 읽기 방식을 보았습니다. 짧은 인덱스를 �
 
 그래서 이 장에는 저장, 불러오기, 추출, 정리라는 네 부분이 필요합니다.
 
-![Memory Subsystems](images/memory-subsystems.en.svg)
+![메모리 하위 시스템](images/memory-subsystems.ko.svg)
 
 ---
 
