@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { useLocale, useTranslations } from "@/lib/i18n";
+import { useLocale, useTranslations, useLocalText } from "@/lib/i18n";
 import { LEARNING_PATH, VERSION_META } from "@/lib/constants";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { LayerBadge } from "@/components/ui/badge";
@@ -16,6 +16,7 @@ const data = versionData as VersionIndex;
 export default function ComparePage() {
   const t = useTranslations("compare");
   const locale = useLocale();
+  const lt = useLocalText();
   const [versionA, setVersionA] = useState<string>("");
   const [versionB, setVersionB] = useState<string>("");
 
@@ -71,7 +72,7 @@ export default function ComparePage() {
             <option value="">-- select --</option>
             {LEARNING_PATH.map((v) => (
               <option key={v} value={v}>
-                {v} - {VERSION_META[v]?.title}
+                {v} - {lt(VERSION_META[v]?.title ?? "")}
               </option>
             ))}
           </select>
@@ -91,7 +92,7 @@ export default function ComparePage() {
             <option value="">-- select --</option>
             {LEARNING_PATH.map((v) => (
               <option key={v} value={v}>
-                {v} - {VERSION_META[v]?.title}
+                {v} - {lt(VERSION_META[v]?.title ?? "")}
               </option>
             ))}
           </select>
@@ -105,8 +106,8 @@ export default function ComparePage() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Card>
               <CardHeader>
-                <CardTitle>{metaA?.title || versionA}</CardTitle>
-                <p className="text-sm text-zinc-500">{metaA?.subtitle}</p>
+                <CardTitle>{metaA ? lt(metaA.title) : versionA}</CardTitle>
+                <p className="text-sm text-zinc-500">{metaA && lt(metaA.subtitle)}</p>
               </CardHeader>
               <div className="space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
                 <p>{infoA.loc} LOC</p>
@@ -116,8 +117,8 @@ export default function ComparePage() {
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle>{metaB?.title || versionB}</CardTitle>
-                <p className="text-sm text-zinc-500">{metaB?.subtitle}</p>
+                <CardTitle>{metaB ? lt(metaB.title) : versionB}</CardTitle>
+                <p className="text-sm text-zinc-500">{metaB && lt(metaB.subtitle)}</p>
               </CardHeader>
               <div className="space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
                 <p>{infoB.loc} LOC</p>
@@ -133,13 +134,13 @@ export default function ComparePage() {
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <div>
                 <h3 className="mb-3 text-sm font-medium text-zinc-500 dark:text-zinc-400">
-                  {metaA?.title || versionA}
+                  {metaA ? lt(metaA.title) : versionA}
                 </h3>
                 <ArchDiagram version={versionA} />
               </div>
               <div>
                 <h3 className="mb-3 text-sm font-medium text-zinc-500 dark:text-zinc-400">
-                  {metaB?.title || versionB}
+                  {metaB ? lt(metaB.title) : versionB}
                 </h3>
                 <ArchDiagram version={versionB} />
               </div>
@@ -235,7 +236,7 @@ export default function ComparePage() {
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
               <div>
                 <h4 className="mb-2 text-sm font-medium text-zinc-600 dark:text-zinc-400">
-                  {t("only_in")} {metaA?.title || versionA}
+                  {t("only_in")} {metaA ? lt(metaA.title) : versionA}
                 </h4>
                 {comparison.toolsOnlyA.length === 0 ? (
                   <p className="text-xs text-zinc-400">{t("none")}</p>
@@ -267,7 +268,7 @@ export default function ComparePage() {
               </div>
               <div>
                 <h4 className="mb-2 text-sm font-medium text-zinc-600 dark:text-zinc-400">
-                  {t("only_in")} {metaB?.title || versionB}
+                  {t("only_in")} {metaB ? lt(metaB.title) : versionB}
                 </h4>
                 {comparison.toolsOnlyB.length === 0 ? (
                   <p className="text-xs text-zinc-400">{t("none")}</p>

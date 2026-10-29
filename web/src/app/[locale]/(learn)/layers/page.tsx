@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useTranslations, useLocale } from "@/lib/i18n";
+import { useTranslations, useLocale, useLocalText } from "@/lib/i18n";
 import { LAYERS, VERSION_META } from "@/lib/constants";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { LayerBadge } from "@/components/ui/badge";
@@ -31,6 +31,7 @@ const LAYER_HEADER_BG: Record<string, string> = {
 export default function LayersPage() {
   const t = useTranslations("layers");
   const locale = useLocale();
+  const lt = useLocalText();
 
   return (
     <div className="py-4">
@@ -63,7 +64,7 @@ export default function LayersPage() {
                   <h2 className="text-xl font-bold">
                     <span className="text-zinc-400 dark:text-zinc-600">L{index + 1}</span>
                     {" "}
-                    {layer.label}
+                    {lt(layer.label)}
                   </h2>
                   <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
                     {t(layer.id)}
@@ -92,7 +93,7 @@ export default function LayersPage() {
                             </h3>
                             {meta?.subtitle && (
                               <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
-                                {meta.subtitle}
+                                {lt(meta.subtitle)}
                               </p>
                             )}
                           </div>
@@ -107,7 +108,7 @@ export default function LayersPage() {
                         </div>
                         {meta?.keyInsight && (
                           <p className="mt-2 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 line-clamp-2">
-                            {meta.keyInsight}
+                            {lt(meta.keyInsight)}
                           </p>
                         )}
                       </Card>

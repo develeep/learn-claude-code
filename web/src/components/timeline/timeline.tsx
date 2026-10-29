@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useTranslations, useLocale } from "@/lib/i18n";
+import { useTranslations, useLocale, useLocalText } from "@/lib/i18n";
 import { LEARNING_PATH, VERSION_META, LAYERS } from "@/lib/constants";
 import { LayerBadge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -46,6 +46,7 @@ export function Timeline() {
   const t = useTranslations("timeline");
   const tv = useTranslations("version");
   const locale = useLocale();
+  const lt = useLocalText();
 
   return (
     <div className="flex flex-col gap-12">
@@ -60,7 +61,7 @@ export function Timeline() {
               <span
                 className={cn("h-3 w-3 rounded-full", LAYER_DOT_BG[layer.id])}
               />
-              <span className="text-xs font-medium">{layer.label}</span>
+              <span className="text-xs font-medium">{lt(layer.label)}</span>
             </div>
           ))}
         </div>
@@ -114,14 +115,14 @@ export function Timeline() {
                   <div className="flex flex-wrap items-start gap-2">
                     <LayerBadge layer={meta.layer}>{versionId}</LayerBadge>
                     <span className="text-xs text-[var(--color-text-secondary)]">
-                      {meta.coreAddition}
+                      {lt(meta.coreAddition)}
                     </span>
                   </div>
 
                   <h3 className="mt-2 text-base font-semibold sm:text-lg">
-                    {meta.title}
+                    {lt(meta.title)}
                     <span className="ml-2 text-sm font-normal text-[var(--color-text-secondary)]">
-                      {meta.subtitle}
+                      {lt(meta.subtitle)}
                     </span>
                   </h3>
 
@@ -149,7 +150,7 @@ export function Timeline() {
                   {/* Key insight */}
                   {meta.keyInsight && (
                     <p className="mt-3 text-sm italic text-[var(--color-text-secondary)]">
-                      &ldquo;{meta.keyInsight}&rdquo;
+                      &ldquo;{lt(meta.keyInsight)}&rdquo;
                     </p>
                   )}
 

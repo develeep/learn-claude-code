@@ -1,4 +1,5 @@
 "use client";
+import { localizeText } from "@/lib/localize";
 import { createContext, useContext, ReactNode } from "react";
 import en from "@/i18n/messages/en.json";
 import zh from "@/i18n/messages/zh.json";
@@ -34,4 +35,9 @@ export function useTranslations(namespace?: string) {
 
 export function useLocale() {
   return useContext(I18nContext).locale;
+}
+
+export function useLocalText() {
+  const { locale } = useContext(I18nContext);
+  return (text: string) => localizeText(locale, text);
 }
