@@ -29,7 +29,7 @@ SYSTEM = (
 
 ## 해결 방법
 
-![Skill Overview](images/skill-overview.en.svg)
+![스킬 개요](images/skill-overview.ko.svg)
 
 시작할 때 `SkillLoader`가 `skills/*/SKILL.md`를 훑어 YAML 프런트매터에서 `name`과 `description`을 읽고, 이 카탈로그를 시스템 프롬프트에 넣습니다. 모델은 전체 지침이 필요하면 `load_skill(name)`을 호출합니다. 돌려받은 `SKILL.md`는 `tool_result`로 메시지 목록에 덧붙습니다.
 
