@@ -23,7 +23,7 @@
 
 ## 해결 방법
 
-![Agent Loop](images/agent-loop.en.svg)
+![에이전트 루프](images/agent-loop.ko.svg)
 
 `while True` 루프를 하나 둡니다. 모델이 도구를 호출하면 계속 돌고, 호출하지 않으면 멈춥니다. 루프는 응답의 콘텐츠 블록을 직접 확인합니다.
 

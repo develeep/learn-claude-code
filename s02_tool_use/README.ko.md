@@ -27,7 +27,7 @@ s01의 에이전트에게는 도구가 bash 하나뿐입니다. 파일을 읽으
 
 ## 개요: 도구 디스패치
 
-![Tool Dispatch](images/tool-dispatch.en.svg)
+![도구 디스패치](images/tool-dispatch.ko.svg)
 
 s01의 루프는 그대로 유지됩니다(LLM 호출, `tool_use` 블록 확인, 메시지 덧붙이기 — 한 글자도 바뀌지 않았습니다). 바뀐 것은 도구를 실행하는 그 한 줄뿐입니다. `run_bash()`가 `TOOL_HANDLERS[block.name]()` 디스패치 조회로 바뀝니다.
 

@@ -18,7 +18,7 @@ MCP는 이 책임을 나눕니다. 서버는 도구 목록과 호출 엔드포�
 
 ## 해결 방법
 
-![MCP Architecture](images/mcp-architecture.en.svg)
+![MCP 아키텍처](images/mcp-architecture.ko.svg)
 
 이 장은 s04의 기본 도구 5개와 훅에서 시작해 세 가지를 더합니다.
 

@@ -10,7 +10,7 @@ s01 → ... → s15 → [s16](../s16_workflow_runtime/) → `s17`
 
 ---
 
-![Goal Loop overview](images/goal-loop-overview.svg)
+![목표 루프 개요](images/goal-loop-overview.ko.svg)
 
 s01부터 에이전트 루프의 종료 조건은 하나였습니다. 모델이 도구 호출을 멈추면 프로그램이 반환합니다.
 

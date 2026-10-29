@@ -22,7 +22,7 @@ s01 → s02 → s03 → s04 → `s05` → [s06](../s06_subagent/) → s07 → ..
 
 ## 해결 방법
 
-![Todo Overview](images/todo-overview.en.svg)
+![TODO 개요](images/todo-overview.ko.svg)
 
 S05는 S04의 도구 디스패치, 권한, 훅을 그대로 두고 `todo_write`와 리마인더 카운터를 더합니다. `todo_write`는 계획 상태만 갱신하고, 실제 작업은 기존 도구가 계속 맡습니다.
 
